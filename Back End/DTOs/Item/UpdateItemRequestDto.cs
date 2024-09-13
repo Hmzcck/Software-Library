@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Back_End.DTOs
+namespace Back_End.DTOs.Item
 {
     public class UpdateItemRequestDto
     {
