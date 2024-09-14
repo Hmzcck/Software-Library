@@ -15,5 +15,7 @@ namespace Back_End.Data
         }
 
         public DbSet<ItemModel> Items { get; set; }
+        public DbSet<CategoryModel> Categories { get; set; }
+
     }
 }

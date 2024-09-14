@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Back_End.Data.Repositories;
-using Back_End.DTOs;
+using Back_End.DTOs.Item;
 using Back_End.Mappers;
 using Back_End.Models;
 
@@ -36,9 +36,9 @@ namespace Back_End.Services.impl
 
         public async Task<ItemModel> CreateAsync(CreateItemRequestDto createItemRequestDto)
         {
-            var stockModel = createItemRequestDto.ToItemModel();
+            var itemModel = createItemRequestDto.ToItemModel();
 
-            return await _itemRepository.CreateAsync(stockModel);
+            return await _itemRepository.CreateAsync(itemModel);
         }
 
         public async Task<ItemModel?> UpdateAsync(int id, UpdateItemRequestDto updateItemRequestDto)

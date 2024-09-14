@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Back_End.Data;
 using Back_End.Data.Repositories;
-using Back_End.DTOs;
+using Back_End.DTOs.Item;
 using Back_End.Mappers;
 using Back_End.Models;
 using Back_End.Services;
