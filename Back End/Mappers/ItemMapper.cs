@@ -11,7 +11,7 @@ namespace Back_End.Mappers
     {
         
 
-        public static ItemResponseDto ItemResponseDto(this ItemModel item)
+        public static ItemResponseDto ToItemResponseDto(this ItemModel item)
         {
             return new ItemResponseDto
             {

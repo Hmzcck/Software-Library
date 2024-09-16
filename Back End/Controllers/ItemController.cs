@@ -42,7 +42,7 @@ namespace Back_End.Controllers
         {
             ItemModel item = await _itemService.CreateAsync(createItemRequestDto);
             
-            return CreatedAtAction(nameof(GetById), new { id = item.Id }, item.ItemResponseDto());
+            return CreatedAtAction(nameof(GetById), new { id = item.Id }, item.ToItemResponseDto());
         }
 
         [HttpPut("{id:int}")]

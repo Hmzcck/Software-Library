@@ -42,7 +42,7 @@ namespace Back_End.Controllers
         {
             CategoryModel category = await _categoryService.CreateAsync(createCategoryRequestDto);
             
-            return CreatedAtAction(nameof(GetById), new { id = category.Id }, category.CategoryResponseDto());
+            return CreatedAtAction(nameof(GetById), new { id = category.Id }, category.ToCategoryResponseDto());
         }
 
         [HttpPut("{id:int}")]

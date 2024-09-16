@@ -9,7 +9,7 @@ namespace Back_End.Mappers
 {
     public static class CategroyMapper
     {
-         public static CategoryResponseDto CategoryResponseDto(this CategoryModel category)
+         public static CategoryResponseDto ToCategoryResponseDto(this CategoryModel category)
         {
             return new CategoryResponseDto
             {
