@@ -20,7 +20,8 @@ namespace Back_End.Mappers
                 Description = item.Description,
                 Publisher = item.Publisher,
                 IsPaid = item.IsPaid,
-                Image = item.Image 
+                Image = item.Image,
+                Reviews = item.Reviews.Select(review => review.ToReviewResponseDto()).ToList()
             };
         }
 

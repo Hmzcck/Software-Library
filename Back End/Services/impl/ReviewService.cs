@@ -14,10 +14,12 @@ namespace Back_End.Services.impl
     {
 
         private readonly IReviewRepository _reviewRepository;
+        private readonly IItemRepository _itemRepository;
 
-        public ReviewService(IReviewRepository reviewRepository)
+        public ReviewService(IReviewRepository reviewRepository, IItemRepository itemRepository)
         {
             _reviewRepository = reviewRepository;
+            _itemRepository = itemRepository;
         }
 
         public async Task<List<ReviewModel>> GetAllAsync()
@@ -35,9 +37,14 @@ namespace Back_End.Services.impl
             return review;
         }
 
-        public async Task<ReviewModel> CreateAsync(CreateReviewRequestDto createReviewRequestDto)
+        public async Task<ReviewModel> CreateAsync(int itemId, CreateReviewRequestDto createReviewRequestDto)
         {
-            var reviewModel = createReviewRequestDto.ToReviewModel();
+            var item = await _itemRepository.GetByIdAsync(itemId);
+            if (item == null)
+            {
+                throw new Exception("Item not found"); // Or handle this with custom exception handling
+            }
+            var reviewModel = createReviewRequestDto.ToReviewModel(item.Id);
 
             return await _reviewRepository.CreateAsync(reviewModel);
         }

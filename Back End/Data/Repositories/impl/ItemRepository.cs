@@ -20,7 +20,7 @@ namespace Back_End.Data.Repositories.impl
 
         public async Task<List<ItemModel>> GetAllAsync()
         {
-            return await _context.Items.ToListAsync();
+            return await _context.Items.Include(Item => Item.Reviews).ToListAsync();
         }
 
 
@@ -46,7 +46,7 @@ namespace Back_End.Data.Repositories.impl
 
         public async Task<ItemModel?> GetByIdAsync(int id)
         {
-            return await _context.Items.FindAsync(id);
+            return await _context.Items.Include(Item => Item.Reviews).FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public async Task<ItemModel?> UpdateAsync(ItemModel existingItem, UpdateItemRequestDto updateItemRequestDto)

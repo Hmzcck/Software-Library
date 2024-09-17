@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Back_End.Models;
 
 namespace Back_End.DTOs.Review
 {
@@ -16,6 +17,8 @@ namespace Back_End.DTOs.Review
         public string Comment { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        public int? ItemId { get; set; }
     }
 
 }

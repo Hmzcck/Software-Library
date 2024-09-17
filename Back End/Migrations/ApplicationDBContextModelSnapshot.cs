@@ -90,6 +90,9 @@ namespace Back_End.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("ItemId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -99,7 +102,23 @@ namespace Back_End.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ItemId");
+
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("Back_End.Models.ReviewModel", b =>
+                {
+                    b.HasOne("Back_End.Models.ItemModel", "Item")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ItemId");
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("Back_End.Models.ItemModel", b =>
+                {
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

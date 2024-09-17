@@ -19,6 +19,10 @@ namespace Back_End.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        // itemmodel 1 - n reviewmodel
+        public int? ItemId { get; set; }
+
+        public ItemModel? Item { get; set; } 
+
+
     }
 }

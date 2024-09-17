@@ -19,6 +19,7 @@ namespace Back_End.Models
 
         public String Image { get; set; } = string.Empty;
 
+        public List<ReviewModel> Reviews { get; set; } = new List<ReviewModel>();
 
         // n-n category, content
     }

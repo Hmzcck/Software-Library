@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Back_End.DTOs.Review;
 
 namespace Back_End.DTOs.Item
 {
@@ -16,6 +17,8 @@ namespace Back_End.DTOs.Item
         public Boolean IsPaid { get; set; }
 
         public String Image { get; set; } = string.Empty;
+
+        public List<ReviewResponseDto> Reviews { get; set; }
     }
 
 }

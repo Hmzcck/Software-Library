@@ -17,17 +17,33 @@ namespace Back_End.Mappers
                 Name = review.Name,
                 Rating = review.Rating,
                 Comment = review.Comment,
-                CreatedAt = review.CreatedAt
+                CreatedAt = review.CreatedAt,
+                ItemId = review.ItemId
+                
             };
         }
 
-        public static ReviewModel ToReviewModel(this CreateReviewRequestDto reviewRequestDto)
+        public static ReviewModel ToReviewModel(this CreateReviewRequestDto reviewRequestDto, int itemId)
         {
             return new ReviewModel
             {
                 Name = reviewRequestDto.Name,
                 Rating = reviewRequestDto.Rating,
                 Comment = reviewRequestDto.Comment,
+                ItemId = itemId
+                
+            };
+        }
+
+        
+        public static ReviewModel ToReviewFromUpdate(this CreateReviewRequestDto reviewRequestDto, int itemId)
+        {
+            return new ReviewModel
+            {
+                Name = reviewRequestDto.Name,
+                Rating = reviewRequestDto.Rating,
+                Comment = reviewRequestDto.Comment,
+                ItemId = itemId
             };
         }
     }

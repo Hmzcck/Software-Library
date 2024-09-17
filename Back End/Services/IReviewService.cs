@@ -16,7 +16,7 @@ namespace Back_End.Services
 
         public Task<ReviewModel?> GetByIdAsync(int id);
 
-        public Task<ReviewModel> CreateAsync(CreateReviewRequestDto createReviewRequestDto);
+        public Task<ReviewModel> CreateAsync(int itemId,CreateReviewRequestDto createReviewRequestDto);
 
         public Task<ReviewModel?> UpdateAsync(int id, UpdateReviewRequestDto updateReviewRequestDto);
 

@@ -38,17 +38,18 @@ namespace Back_End.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]  CreateReviewRequestDto createreviewRequestDto)
+        [Route("{itemId:int}")]
+        public async Task<IActionResult> Create([FromRoute] int itemId,   CreateReviewRequestDto createReviewRequestDto)
         {
-            ReviewModel review = await _reviewService.CreateAsync(createreviewRequestDto);
+            ReviewModel review = await _reviewService.CreateAsync(itemId,createReviewRequestDto);
             
             return CreatedAtAction(nameof(GetById), new { id = review.Id }, review.ToReviewResponseDto());
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateReviewRequestDto updatereviewRequestDto) 
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateReviewRequestDto updateReviewRequestDto) 
         {
-            await _reviewService.UpdateAsync(id, updatereviewRequestDto);
+            await _reviewService.UpdateAsync(id, updateReviewRequestDto);
             return NoContent();
         }
 
