@@ -16,6 +16,7 @@ namespace Back_End.Mappers
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
+                ItemIds = category.Items?.Select(i => i.Id).ToList()
             };
         }
 
@@ -24,7 +25,8 @@ namespace Back_End.Mappers
             return new CategoryModel
             {
                 Name = categoryRequestDto.Name,
-                Description = categoryRequestDto.Description
+                Description = categoryRequestDto.Description,
+                Items = categoryRequestDto.ItemIds?.Select(id => new ItemModel { Id = id }).ToList()
             };
         }
     }

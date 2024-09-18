@@ -13,7 +13,9 @@ namespace Back_End.Data.Repositories
         Task<List<CategoryModel>> GetAllAsync();
         Task<CategoryModel?> GetByIdAsync(int id);
         Task<CategoryModel> CreateAsync(CategoryModel categoryModel);
-        Task<CategoryModel?> UpdateAsync(CategoryModel existingCategory,UpdateCategoryRequestDto updateCategoryRequestDto);
+        Task<CategoryModel?> UpdateAsync(CategoryModel existingCategory, UpdateCategoryRequestDto updateCategoryRequestDto);
         Task<CategoryModel?> DeleteAsync(CategoryModel item);
+
+        Task<List<CategoryModel?>> GetCategoriesByIdsAsync(List<int> categoryIds);
     }
 }

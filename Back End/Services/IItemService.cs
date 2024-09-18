@@ -11,14 +11,16 @@ namespace Back_End.Services
     {
         //CRUD
 
-        public  Task<List<ItemModel>> GetAllAsync();
+        public  Task<List<ItemResponseDto>> GetAllAsync();
 
-        public Task<ItemModel?> GetByIdAsync(int id);
+        public Task<ItemResponseDto?> GetByIdAsync(int id);
 
         public Task<ItemModel> CreateAsync(CreateItemRequestDto createItemRequestDto);
 
         public Task<ItemModel?> UpdateAsync(int id, UpdateItemRequestDto updateItemRequestDto);
 
         public Task<ItemModel?> DeleteAsync(int id);
+
+        public Task<ItemModel> AddCategoryAsync(AddCategoryRequestDto addCategoryRequestDto);
     }
 }

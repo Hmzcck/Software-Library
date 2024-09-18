@@ -11,5 +11,8 @@ namespace Back_End.DTOs.Category
 
         public string Description { get; set; } = string.Empty;
 
+        public List<int>? ItemIds { get; set; }
+
+
     }
 }

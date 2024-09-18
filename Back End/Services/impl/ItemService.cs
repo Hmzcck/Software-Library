@@ -13,32 +13,44 @@ namespace Back_End.Services.impl
     {
 
         private readonly IItemRepository _itemRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public ItemService(IItemRepository itemRepository)
+        public ItemService(IItemRepository itemRepository, ICategoryRepository categoryRepository)
         {
             _itemRepository = itemRepository;
+            _categoryRepository = categoryRepository;
         }
 
-        public async Task<List<ItemModel>> GetAllAsync()
+        public async Task<List<ItemResponseDto>> GetAllAsync()
         {
-            return await _itemRepository.GetAllAsync();
+            var items = await _itemRepository.GetAllAsync();
+            return items.Select(ItemMapper.ToItemResponseDto).ToList();
         }
 
-        public async Task<ItemModel?> GetByIdAsync(int id)
+        public async Task<ItemResponseDto?> GetByIdAsync(int id)
         {
             var item = await _itemRepository.GetByIdAsync(id);
             if (item == null)
             {
                 throw new Exception("Item not found"); // Or handle this with custom exception handling
             }
-            return item;
+            return ItemMapper.ToItemResponseDto(item);
         }
 
         public async Task<ItemModel> CreateAsync(CreateItemRequestDto createItemRequestDto)
         {
-            var itemModel = createItemRequestDto.ToItemModel();
+            var categories = await _categoryRepository.GetCategoriesByIdsAsync(createItemRequestDto.CategoryIds);
 
-            return await _itemRepository.CreateAsync(itemModel);
+            var item = new ItemModel
+            {
+                Name = createItemRequestDto.Name,
+                Description = createItemRequestDto.Description,
+                Publisher = createItemRequestDto.Publisher,
+                IsPaid = createItemRequestDto.IsPaid,
+                Image = createItemRequestDto.Image,
+                Categories = categories
+            };
+            return await _itemRepository.CreateAsync(item);
         }
 
         public async Task<ItemModel?> UpdateAsync(int id, UpdateItemRequestDto updateItemRequestDto)
@@ -62,6 +74,24 @@ namespace Back_End.Services.impl
             }
 
             return await _itemRepository.DeleteAsync(item);
+        }
+
+        public async Task<ItemModel> AddCategoryAsync(AddCategoryRequestDto addCategoryRequestDto)
+        {
+            var item = await _itemRepository.GetByIdAsync(addCategoryRequestDto.ItemId);
+            if (item == null)
+            {
+                throw new Exception("Item not found");
+            }
+
+            var category = await _categoryRepository.GetByIdAsync(addCategoryRequestDto.CategoryId);
+            if (category == null)
+            {
+                throw new Exception("Category not found");
+            }
+            await _itemRepository.AddCategoryAsync(item, category);
+
+            return item;
         }
     }
 }

@@ -20,7 +20,9 @@ namespace Back_End.Data.Repositories.impl
 
         public async Task<List<ItemModel>> GetAllAsync()
         {
-            return await _context.Items.Include(Item => Item.Reviews).ToListAsync();
+            return await _context.Items.Include(Item => Item.Reviews)
+            .Include(Item => Item.Categories)
+            .ToListAsync();
         }
 
 
@@ -46,7 +48,9 @@ namespace Back_End.Data.Repositories.impl
 
         public async Task<ItemModel?> GetByIdAsync(int id)
         {
-            return await _context.Items.Include(Item => Item.Reviews).FirstOrDefaultAsync(i => i.Id == id);
+            return await _context.Items.Include(Item => Item.Reviews)
+            .Include(Item => Item.Categories.Select(Category => Category.Id))
+            .FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public async Task<ItemModel?> UpdateAsync(ItemModel existingItem, UpdateItemRequestDto updateItemRequestDto)
@@ -56,10 +60,23 @@ namespace Back_End.Data.Repositories.impl
             existingItem.Publisher = updateItemRequestDto.Publisher;
             existingItem.IsPaid = updateItemRequestDto.IsPaid;
             existingItem.Image = updateItemRequestDto.Image;
+            existingItem.Categories = updateItemRequestDto.CategoryIds.Select(id => new CategoryModel { Id = id }).ToList();
 
             await _context.SaveChangesAsync();
 
             return existingItem;
+        }
+
+        public async Task<ItemModel?> AddCategoryAsync(ItemModel item, CategoryModel category)
+        {
+
+            if (!item.Categories.Contains(category))
+            {
+                item.Categories.Add(category);
+                await _context.SaveChangesAsync();
+            }
+
+            return item;
         }
     }
 }

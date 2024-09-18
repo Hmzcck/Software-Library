@@ -58,5 +58,13 @@ namespace Back_End.Controllers
             await _itemService.DeleteAsync(id);
             return NoContent();
         }
+
+        [HttpPost("add-category")]
+
+        public async Task<IActionResult> AddCategory([FromBody] AddCategoryRequestDto addCategoryRequestDto)
+        {
+            await _itemService.AddCategoryAsync(addCategoryRequestDto);
+            return NoContent();
+        }   
     }
 }

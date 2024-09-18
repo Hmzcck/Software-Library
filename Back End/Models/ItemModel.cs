@@ -21,6 +21,6 @@ namespace Back_End.Models
 
         public List<ReviewModel> Reviews { get; set; } = new List<ReviewModel>();
 
-        // n-n category, content
+        public ICollection<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
     }
 }

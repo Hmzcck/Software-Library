@@ -15,6 +15,6 @@ namespace Back_End.Models
 
         public string Description { get; set; } = string.Empty;
 
-        // itemmodel n - n categorymodel
+        public ICollection<ItemModel>? Items { get; set; }
     }
 }

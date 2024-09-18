@@ -12,7 +12,11 @@ namespace Back_End.Data.Repositories
         Task<List<ItemModel>> GetAllAsync();
         Task<ItemModel?> GetByIdAsync(int id);
         Task<ItemModel> CreateAsync(ItemModel itemModel);
-        Task<ItemModel?> UpdateAsync(ItemModel existingItem,UpdateItemRequestDto updateItemRequestDto);
+        Task<ItemModel?> UpdateAsync(ItemModel existingItem, UpdateItemRequestDto updateItemRequestDto);
         Task<ItemModel?> DeleteAsync(ItemModel item);
+
+        Task<ItemModel?> AddCategoryAsync(ItemModel item, CategoryModel category);
+
+
     }
 }

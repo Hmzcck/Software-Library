@@ -59,5 +59,12 @@ namespace Back_End.Data.Repositories.impl
 
             return existingcategory;
         }
+
+        public async Task<List<CategoryModel?>> GetCategoriesByIdsAsync(List<int> categoryIds)
+        {
+            return await _context.Categories
+                                 .Where(c => categoryIds.Contains(c.Id))
+                                 .ToListAsync();
+        }
     }
 }

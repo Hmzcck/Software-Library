@@ -23,6 +23,5 @@ namespace Back_End.Models
 
         public ItemModel? Item { get; set; } 
 
-
     }
 }

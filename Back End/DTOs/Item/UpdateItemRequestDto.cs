@@ -16,6 +16,7 @@ namespace Back_End.DTOs.Item
 
         public String Image { get; set; } = string.Empty;
 
+        public List<int> CategoryIds { get; set; } = new List<int>();
 
     }
 }
