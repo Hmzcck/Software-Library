@@ -8,6 +8,6 @@ namespace Back_End.Models
 {
     public class UserModel : IdentityUser
     {
-        public List<UserFavoriteItem> FavoriteItems { get; set; } = new List<UserFavoriteItem>();
+      //  public List<UserFavoriteItem> FavoriteItems { get; set; } = new List<UserFavoriteItem>();
     }
 }

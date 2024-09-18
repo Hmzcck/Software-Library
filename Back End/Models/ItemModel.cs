@@ -23,6 +23,6 @@ namespace Back_End.Models
 
         public ICollection<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
 
-        public List<UserFavoriteItem> FavoriteItems { get; set; } = new List<UserFavoriteItem>();
+     //   public List<UserFavoriteItem> FavoriteItems { get; set; } = new List<UserFavoriteItem>();
     }
 }
