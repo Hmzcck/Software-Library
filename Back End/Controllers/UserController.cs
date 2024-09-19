@@ -49,3 +49,8 @@ namespace Back_End.Controllers
         }
     }
 }
+// Login Creds
+// {
+//   "username": "TestUser2",
+//   "password": "tesAt121233@"
+// }

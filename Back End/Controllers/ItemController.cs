@@ -8,6 +8,7 @@ using Back_End.DTOs.Item;
 using Back_End.Mappers;
 using Back_End.Models;
 using Back_End.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Back_End.Controllers
@@ -24,6 +25,7 @@ namespace Back_End.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var items = await _itemService.GetAllAsync();
@@ -31,6 +33,7 @@ namespace Back_End.Controllers
         }       
 
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var item = await _itemService.GetByIdAsync(id);
@@ -38,6 +41,7 @@ namespace Back_End.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody]  CreateItemRequestDto createItemRequestDto)//itemdto item)
         {
             ItemModel item = await _itemService.CreateAsync(createItemRequestDto);
@@ -46,6 +50,7 @@ namespace Back_End.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateItemRequestDto updateItemRequestDto) //itemdto item)
         {
             await _itemService.UpdateAsync(id, updateItemRequestDto);
@@ -53,6 +58,7 @@ namespace Back_End.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             await _itemService.DeleteAsync(id);
@@ -60,7 +66,7 @@ namespace Back_End.Controllers
         }
 
         [HttpPost("add-category")]
-
+        [Authorize]
         public async Task<IActionResult> AddCategory([FromBody] AddCategoryRequestDto addCategoryRequestDto)
         {
             await _itemService.AddCategoryAsync(addCategoryRequestDto);
