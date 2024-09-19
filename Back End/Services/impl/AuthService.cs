@@ -39,8 +39,14 @@ namespace Back_End.Services.impl
                 return new RegisterResultDTO { Succeeded = false, Errors = result.Errors };
             }
 
-            var token = await _tokenService.CreateTokenAsync(user);
+            var roleResult = await _userManager.AddToRoleAsync(user, "User");
 
+            if (!roleResult.Succeeded)
+            {
+                return new RegisterResultDTO { Succeeded = false, Errors = roleResult.Errors };
+            }
+
+        
             return new RegisterResultDTO
             {
                 Succeeded = true,
@@ -48,7 +54,7 @@ namespace Back_End.Services.impl
                 {
                     UserName = user.UserName,
                     Email = user.Email,
-                    Token = token
+                    Token = await _tokenService.CreateTokenAsync(user)
                 }
             };
 
