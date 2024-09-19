@@ -93,12 +93,14 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IUserFavoriteItemRepository, UserFavoriteItemRepository>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserFavoriteItemService, UserFavoriteItemService>();
 
 var app = builder.Build();
 

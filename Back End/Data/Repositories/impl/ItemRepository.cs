@@ -48,9 +48,10 @@ namespace Back_End.Data.Repositories.impl
 
         public async Task<ItemModel?> GetByIdAsync(int id)
         {
-            return await _context.Items.Include(Item => Item.Reviews)
-            .Include(Item => Item.Categories.Select(Category => Category.Id))
-            .FirstOrDefaultAsync(i => i.Id == id);
+            return await _context.Items
+            .Include(item => item.Reviews)   
+            .Include(item => item.Categories)  
+            .FirstOrDefaultAsync(i => i.Id == id); 
         }
 
         public async Task<ItemModel?> UpdateAsync(ItemModel existingItem, UpdateItemRequestDto updateItemRequestDto)
