@@ -15,7 +15,7 @@ namespace Back_End.Controllers
     [Route("api/userfavoriteitem")]
     [ApiController]
     public class UserFavoriteItemController : ControllerBase
-    {   
+    {
         private readonly IUserFavoriteItemService _userFavoriteItemService;
         private readonly UserManager<UserModel> _userManager;
 
@@ -30,7 +30,10 @@ namespace Back_End.Controllers
         [Authorize]
         public async Task<IActionResult> GetUserFavoriteItems()
         {
-            var userFavoriteItems =  await _userFavoriteItemService.GetUserFavoriteItems(User);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var userFavoriteItems = await _userFavoriteItemService.GetUserFavoriteItems(User);
             return Ok(userFavoriteItems);
         }
 
@@ -39,6 +42,9 @@ namespace Back_End.Controllers
         [Authorize]
         public async Task<IActionResult> AddUserFavoriteItem([FromRoute] int itemId)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
                 var userFavoriteItem = await _userFavoriteItemService.AddUserFavoriteItem(User, itemId);
@@ -55,6 +61,9 @@ namespace Back_End.Controllers
         [Authorize]
         public async Task<IActionResult> RemoveUserFavoriteItem([FromRoute] int itemId)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
                 var userFavoriteItem = await _userFavoriteItemService.RemoveUserFavoriteItem(User, itemId);

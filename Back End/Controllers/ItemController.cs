@@ -28,6 +28,8 @@ namespace Back_End.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var items = await _itemService.GetAllAsync();
             return Ok(items);
         }       
@@ -36,6 +38,8 @@ namespace Back_End.Controllers
         [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var item = await _itemService.GetByIdAsync(id);
             return Ok(item);
         }
@@ -44,6 +48,8 @@ namespace Back_End.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody]  CreateItemRequestDto createItemRequestDto)//itemdto item)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             ItemModel item = await _itemService.CreateAsync(createItemRequestDto);
             
             return CreatedAtAction(nameof(GetById), new { id = item.Id }, item.ToItemResponseDto());
@@ -53,6 +59,8 @@ namespace Back_End.Controllers
         [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateItemRequestDto updateItemRequestDto) //itemdto item)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             await _itemService.UpdateAsync(id, updateItemRequestDto);
             return NoContent();
         }
@@ -61,6 +69,8 @@ namespace Back_End.Controllers
         [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             await _itemService.DeleteAsync(id);
             return NoContent();
         }
@@ -69,6 +79,8 @@ namespace Back_End.Controllers
         [Authorize]
         public async Task<IActionResult> AddCategory([FromBody] AddCategoryRequestDto addCategoryRequestDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             await _itemService.AddCategoryAsync(addCategoryRequestDto);
             return NoContent();
         }   
