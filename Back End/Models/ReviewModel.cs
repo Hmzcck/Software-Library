@@ -23,5 +23,9 @@ namespace Back_End.Models
 
         public ItemModel? Item { get; set; } 
 
+        public string UserId { get; set; } = string.Empty;
+
+        public UserModel User { get; set; } = null!;
+
     }
 }

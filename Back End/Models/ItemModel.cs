@@ -13,11 +13,11 @@ namespace Back_End.Models
         public string Name { get; set; } = string.Empty;
 
         public string Description { get; set; } = string.Empty;
-        public String Publisher { get; set; } = string.Empty;
+        public string Publisher { get; set; } = string.Empty;
 
         public Boolean IsPaid { get; set; } 
 
-        public String Image { get; set; } = string.Empty;
+        public string Image { get; set; } = string.Empty;
 
         public List<ReviewModel> Reviews { get; set; } = new List<ReviewModel>();
 
