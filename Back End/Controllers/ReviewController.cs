@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Back_End.Data;
 using Back_End.Data.Repositories;
@@ -57,7 +58,7 @@ namespace Back_End.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            ReviewModel review = await _reviewService.CreateAsync(itemId, createReviewRequestDto);
+            ReviewModel review = await _reviewService.CreateAsync(itemId,User, createReviewRequestDto);
 
             return CreatedAtAction(nameof(GetById), new { id = review.Id }, review.ToReviewResponseDto());
         }

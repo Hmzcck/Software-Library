@@ -21,7 +21,7 @@ namespace Back_End.Data.Repositories.impl
 
         public async Task<List<ReviewModel>> GetAllAsync()
         {
-            return await _context.Reviews.ToListAsync();
+            return await _context.Reviews.Include(r => r.User).ToListAsync();
         }
 
 
@@ -47,7 +47,7 @@ namespace Back_End.Data.Repositories.impl
 
         public async Task<ReviewModel?> GetByIdAsync(int id)
         {
-            return await _context.Reviews.FindAsync(id);
+            return await _context.Reviews.Include(r => r.User).FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task<ReviewModel?> UpdateAsync(ReviewModel existingReview, UpdateReviewRequestDto updateReviewRequestDto)

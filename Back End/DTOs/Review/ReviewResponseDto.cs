@@ -19,6 +19,8 @@ namespace Back_End.DTOs.Review
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public int? ItemId { get; set; }
+
+        public string CreatedBy { get; set; } = string.Empty;
     }
 
 }

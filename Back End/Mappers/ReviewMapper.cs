@@ -18,8 +18,8 @@ namespace Back_End.Mappers
                 Rating = review.Rating,
                 Comment = review.Comment,
                 CreatedAt = review.CreatedAt,
-                ItemId = review.ItemId
-                
+                ItemId = review.ItemId,
+                CreatedBy = review.User.UserName
             };
         }
 
