@@ -21,8 +21,11 @@ namespace Back_End.Data.Repositories.impl
 
         public async Task<List<CategoryModel>> GetAllAsync()
         {
-            return await _context.Categories.ToListAsync();
+            return await _context.Categories
+                .Include(c => c.Items)
+                .ToListAsync();
         }
+
 
 
         public async Task<CategoryModel?> DeleteAsync(CategoryModel category)
@@ -47,7 +50,7 @@ namespace Back_End.Data.Repositories.impl
 
         public async Task<CategoryModel?> GetByIdAsync(int id)
         {
-            return await _context.Categories.FindAsync(id);
+            return await _context.Categories.Include(c => c.Items).FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public async Task<CategoryModel?> UpdateAsync(CategoryModel existingcategory, UpdateCategoryRequestDto updatecategoryRequestDto)
