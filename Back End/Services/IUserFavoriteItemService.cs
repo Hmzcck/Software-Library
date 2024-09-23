@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Back_End.DTOs;
+using Back_End.DTOs.Item;
 using Back_End.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +12,7 @@ namespace Back_End.Services
 {
     public interface IUserFavoriteItemService
     {
-        public Task<List<UserFavoriteItem>> GetUserFavoriteItems(ClaimsPrincipal User);
+        public Task<List<ItemResponseDto>> GetUserFavoriteItems(ClaimsPrincipal User, ItemFilterDto itemFilterDto);
 
         public Task<UserFavoriteItem> AddUserFavoriteItem(ClaimsPrincipal User, int ItemId);
 

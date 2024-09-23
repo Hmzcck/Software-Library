@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Extensions;
+using Back_End.DTOs.Item;
 using Back_End.DTOs.User;
 using Back_End.Models;
 using Back_End.Services;
@@ -28,12 +29,12 @@ namespace Back_End.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetUserFavoriteItems()
+        public async Task<IActionResult> GetUserFavoriteItems([FromQuery] ItemFilterDto itemFilterDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var userFavoriteItems = await _userFavoriteItemService.GetUserFavoriteItems(User);
+            var userFavoriteItems = await _userFavoriteItemService.GetUserFavoriteItems(User, itemFilterDto);
             return Ok(userFavoriteItems);
         }
 

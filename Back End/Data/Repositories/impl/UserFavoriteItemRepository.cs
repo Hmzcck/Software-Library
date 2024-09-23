@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Back_End.DTOs.Item;
 using Back_End.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,10 +17,40 @@ namespace Back_End.Data.Repositories.impl
         {
             _context = context;
         }
-        
-        public async Task<List<UserFavoriteItem>> GetUserFavoriteItems(string userId)
+
+        public async Task<List<ItemModel>> GetUserFavoriteItems(string userId, ItemFilterDto itemFilterDto)
         {
-            return await _context.UserFavoriteItems.Where(x => x.UserId == userId).ToListAsync();
+            var query = _context.UserFavoriteItems
+       .Where(x => x.UserId == userId)
+       .Include(x => x.Item)               // Include the item first
+           .ThenInclude(item => item.Reviews)
+               .ThenInclude(review => review.User) // Include the User for each review
+       .Include(x => x.Item)               // Include the item again
+           .ThenInclude(item => item.Categories)  // Include Categories
+       .Select(x => x.Item)                // Now you can project to select the Item
+       .AsQueryable();
+
+            if (!string.IsNullOrEmpty(itemFilterDto.Name))
+            {
+                query = query.Where(item => item.Name.Contains(itemFilterDto.Name));
+            }
+
+            if (itemFilterDto.CategoryIds != null && itemFilterDto.CategoryIds.Any())
+            {
+                query = query.Where(item => item.Categories.Any(c => itemFilterDto.CategoryIds.Contains(c.Id)));
+            }
+
+            if (!string.IsNullOrEmpty(itemFilterDto.Publisher))
+            {
+                query = query.Where(item => item.Publisher.Contains(itemFilterDto.Publisher));
+            }
+
+            if (itemFilterDto.MinRating.HasValue)
+            {
+                query = query.Where(item => item.Reviews.Average(r => r.Rating) >= itemFilterDto.MinRating.Value);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<UserFavoriteItem?> GetUserFavoriteItem(string userId, int itemId)

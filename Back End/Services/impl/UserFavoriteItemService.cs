@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using api.Extensions;
 using Back_End.Data.Repositories;
+using Back_End.DTOs.Item;
+using Back_End.Mappers;
 using Back_End.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +22,12 @@ namespace Back_End.Services.impl
             _userFavoriteItemRepository = userFavoriteItemRepository;
         }
 
-        public async Task<List<UserFavoriteItem>> GetUserFavoriteItems(ClaimsPrincipal User)
+        public async Task<List<ItemResponseDto>> GetUserFavoriteItems(ClaimsPrincipal User, ItemFilterDto itemFilterDto)
         {
             var username = User.GetUsername();
             var user = await _userManager.FindByNameAsync(username);
-            return await _userFavoriteItemRepository.GetUserFavoriteItems(user.Id);
+            var favoriteItems = await _userFavoriteItemRepository.GetUserFavoriteItems(user.Id, itemFilterDto);
+            return favoriteItems.Select(ItemMapper.ToItemResponseDto).ToList();
         }
 
 
