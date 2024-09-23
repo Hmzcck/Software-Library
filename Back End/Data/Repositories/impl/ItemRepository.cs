@@ -18,13 +18,36 @@ namespace Back_End.Data.Repositories.impl
             _context = context;
         }
 
-        public async Task<List<ItemModel>> GetAllAsync()
+        public async Task<List<ItemModel>> GetAllAsync(ItemFilterDto itemFilterDto)
         {
-            return await _context.Items
+            var query = _context.Items
             .Include(item => item.Reviews)
                 .ThenInclude(review => review.User)
             .Include(item => item.Categories)
-            .ToListAsync();
+            .AsQueryable();
+
+            if (!string.IsNullOrEmpty(itemFilterDto.Name))
+            {
+                query = query.Where(item => item.Name.Contains(itemFilterDto.Name));
+            }
+
+            if (itemFilterDto.CategoryIds != null && itemFilterDto.CategoryIds.Any())
+            {
+                query = query.Where(item => item.Categories.Any(c => itemFilterDto.CategoryIds.Contains(c.Id)));
+            }
+
+            if (!string.IsNullOrEmpty(itemFilterDto.Publisher))
+            {
+                query = query.Where(item => item.Publisher.Contains(itemFilterDto.Publisher));
+            }
+
+            if (itemFilterDto.MinRating.HasValue)
+            {
+                query = query.Where(item => item.Reviews.Average(r => r.Rating) >= itemFilterDto.MinRating.Value);
+            }
+
+            return await query.ToListAsync();
+
         }
 
 

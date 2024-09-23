@@ -21,9 +21,9 @@ namespace Back_End.Services.impl
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<List<ItemResponseDto>> GetAllAsync()
+        public async Task<List<ItemResponseDto>> GetAllAsync(ItemFilterDto itemFilterDto)
         {
-            var items = await _itemRepository.GetAllAsync();
+            var items = await _itemRepository.GetAllAsync(itemFilterDto);
             return items.Select(ItemMapper.ToItemResponseDto).ToList();
         }
 

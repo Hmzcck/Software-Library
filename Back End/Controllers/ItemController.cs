@@ -26,13 +26,13 @@ namespace Back_End.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] ItemFilterDto itemFilterDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var items = await _itemService.GetAllAsync();
+            var items = await _itemService.GetAllAsync(itemFilterDto);
             return Ok(items);
-        }       
+        }
 
         [HttpGet("{id:int}")]
         [Authorize]
