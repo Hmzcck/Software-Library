@@ -30,6 +30,7 @@ namespace Back_End.Data.Repositories.impl
        .Select(x => x.Item)                // Now you can project to select the Item
        .AsQueryable();
 
+
             if (!string.IsNullOrEmpty(itemFilterDto.Name))
             {
                 query = query.Where(item => item.Name.Contains(itemFilterDto.Name));
@@ -50,7 +51,8 @@ namespace Back_End.Data.Repositories.impl
                 query = query.Where(item => item.Reviews.Average(r => r.Rating) >= itemFilterDto.MinRating.Value);
             }
 
-            return await query.ToListAsync();
+                      return await query.Skip((itemFilterDto.PageNumber - 1) * itemFilterDto.PageSize)
+    .Take(itemFilterDto.PageSize).ToListAsync();
         }
 
         public async Task<UserFavoriteItem?> GetUserFavoriteItem(string userId, int itemId)

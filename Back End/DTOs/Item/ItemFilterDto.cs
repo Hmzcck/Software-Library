@@ -11,6 +11,10 @@ namespace Back_End.DTOs.Item
         public List<int>? CategoryIds { get; set; }
         public string? Publisher { get; set; }
         public int? MinRating { get; set; }
+
+        public int PageNumber { get; set; } = 1;
+
+        public int PageSize { get; set; } = 1;
     }
 
 }

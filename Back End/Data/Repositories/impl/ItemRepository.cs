@@ -26,6 +26,8 @@ namespace Back_End.Data.Repositories.impl
             .Include(item => item.Categories)
             .AsQueryable();
 
+            query = query.Skip((itemFilterDto.PageNumber - 1) * itemFilterDto.PageSize);
+
             if (!string.IsNullOrEmpty(itemFilterDto.Name))
             {
                 query = query.Where(item => item.Name.Contains(itemFilterDto.Name));
@@ -46,7 +48,8 @@ namespace Back_End.Data.Repositories.impl
                 query = query.Where(item => item.Reviews.Average(r => r.Rating) >= itemFilterDto.MinRating.Value);
             }
 
-            return await query.ToListAsync();
+            return await query.Skip((itemFilterDto.PageNumber - 1) * itemFilterDto.PageSize)
+    .Take(itemFilterDto.PageSize).ToListAsync();
 
         }
 
