@@ -9,7 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
+        primary: "var(--primary-color)",
+        secondary: "var(--secondary-color)",
+        background: "var(--background-color)",
+        white: "var(--white-color)",
+        "primary-text": "var(--primary-text-color)",
+        "secondary-text": "var(--secondary-text-color)",
+        success: "var(--success-color)",
+        warning: "var(--warning-color)",
+        error: "var(--error-color)",
         foreground: "var(--foreground)",
       },
     },
