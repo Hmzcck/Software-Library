@@ -3,7 +3,7 @@
 import React from "react";
 import Button from "./Button";
 
-export default function Header(): JSX.Element {
+export default function Header(): React.JSX.Element {
   return (
     <header className="w-full shadow-md bg-background">
       <div className="flex items-center justify-between p-4 bg-background">
@@ -60,7 +60,7 @@ export default function Header(): JSX.Element {
             label="Most Downloads"
             onClick={() => console.log("Most Downloads clicked")}
           />
-             <Button
+          <Button
             variant="header"
             label="New Softwares"
             onClick={() => console.log("New Softwares clicked")}
