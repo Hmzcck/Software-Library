@@ -25,7 +25,6 @@ namespace Back_End.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] ItemFilterDto itemFilterDto)
         {
             if (!ModelState.IsValid)
@@ -35,7 +34,6 @@ namespace Back_End.Controllers
         }
 
         [HttpGet("{id:int}")]
-        [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!ModelState.IsValid)
