@@ -21,6 +21,8 @@ namespace Back_End.DTOs.Item
         public List<ReviewResponseDto> Reviews { get; set; }
 
         public List<int> CategoryIds { get; set; } = new List<int>();
+
+        public List<string> CategoryNames { get; set; } = new List<string>();
     }
 
 }

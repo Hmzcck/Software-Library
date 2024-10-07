@@ -1,7 +1,9 @@
-import ItemCardContainer from "@/components/ItemCardContainer";
+import ItemCardContainer from "@/components/home/ItemCardContainer";
 
 export default async function Home() {
-  const response = await fetch("http://localhost:5079/api/items");
+  const response = await fetch("http://localhost:5079/api/items", { 
+    cache: "no-cache",
+  });
   const data = await response.json();
   console.log(JSON.stringify(data, null, 2)); 
 

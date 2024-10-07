@@ -22,7 +22,8 @@ namespace Back_End.Mappers
                 IsPaid = item.IsPaid,
                 Image = item.Image,
                 Reviews = item.Reviews.Select(review => review.ToReviewResponseDto()).ToList(),
-                CategoryIds = item.Categories.Select(c => c.Id).ToList()
+                CategoryIds = item.Categories.Select(c => c.Id).ToList(),
+                CategoryNames = item.Categories.Select(c => c.Name).ToList()
             };
         }
 

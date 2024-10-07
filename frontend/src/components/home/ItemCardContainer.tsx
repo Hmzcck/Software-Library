@@ -5,6 +5,8 @@ type ItemCardContainerProps = {
   items: Array<{
     id: number;
     name: string;
+    categoryNames: Array<string>;
+    publisher: string;
     description: string;
     image: string;
   }>;
@@ -19,6 +21,8 @@ export default function ItemCardContainer({ items }: ItemCardContainerProps) {
             key={item.id}
             id={item.id}
             name={item.name}
+            publisher={item.publisher}
+            categoryNames={item.categoryNames}
             description={item.description}
             image={item.image}
           />
