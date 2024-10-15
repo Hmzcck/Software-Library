@@ -3,28 +3,21 @@
 import React from "react";
 import Button from "@/components/Button"; // Ensure the path is correct
 import { useRouter } from "next/navigation"; // Use Next.js router for navigation
+import { ItemCardProps } from "@/types/Item"; // Import the ItemCardProps type
 
-type ItemCardProps = {
-  id: number;
-  name: string;
-  publisher: string;
-  categoryNames: Array<string>;
-  description: string;
-  image: string;
-};
 
 export default function ItemCard({
   id,
   name,
-  publisher,
   categoryNames,
+  publisher,
   description,
   image,
 }: ItemCardProps) {
   const router = useRouter(); // Hook for navigating
 
   const handleDetailsClick = () => {
-    router.push(`/home/${id}`); // Navigate to dynamic item page
+    router.push(`/items/${id}`); // Navigate to dynamic item page
   };
 
   return (
@@ -41,11 +34,12 @@ export default function ItemCard({
         <h5 className="text-lg font-medium leading-tight text-primary mb-1">
           {name}
         </h5>
-        {/* Publisher */}
-        <p className="text-gray-700 text-sm mb-2">Published by: {publisher}</p>
 
         {/* Categories */}
         <p className="text-gray-500 text-sm mb-1">{categoryNames.join(", ")}</p>
+
+        {/* Publisher */}
+        <p className="text-gray-700 text-sm mb-2">Published by: {publisher}</p>
 
         {/* Description */}
         <p className="text-black text-sm mb-4 overflow-hidden text-ellipsis line-clamp-2">

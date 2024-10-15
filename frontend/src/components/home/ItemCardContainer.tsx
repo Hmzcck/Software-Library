@@ -1,16 +1,6 @@
 import React from "react";
 import ItemCard from "./ItemCard"; // Ensure the path is correct
-
-type ItemCardContainerProps = {
-  items: Array<{
-    id: number;
-    name: string;
-    categoryNames: Array<string>;
-    publisher: string;
-    description: string;
-    image: string;
-  }>;
-};
+import { ItemCardContainerProps } from "@/types/Item"; // Import the Item type
 
 export default function ItemCardContainer({ items }: ItemCardContainerProps) {
   return (
@@ -21,8 +11,8 @@ export default function ItemCardContainer({ items }: ItemCardContainerProps) {
             key={item.id}
             id={item.id}
             name={item.name}
-            publisher={item.publisher}
             categoryNames={item.categoryNames}
+            publisher={item.publisher}
             description={item.description}
             image={item.image}
           />

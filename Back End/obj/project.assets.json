@@ -4687,11 +4687,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Zwew\\Desktop\\DotNet Project\\Software-Library\\Back End\\Back End.csproj",
+      "projectUniqueName": "C:\\Users\\Zwew\\Desktop\\DotNet Project\\Software-Library\\Back End\\Back End.csproj",
       "projectName": "Back End",
-      "projectPath": "c:\\Users\\Zwew\\Desktop\\DotNet Project\\Software-Library\\Back End\\Back End.csproj",
+      "projectPath": "C:\\Users\\Zwew\\Desktop\\DotNet Project\\Software-Library\\Back End\\Back End.csproj",
       "packagesPath": "C:\\Users\\Zwew\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Zwew\\Desktop\\DotNet Project\\Software-Library\\Back End\\obj\\",
+      "outputPath": "C:\\Users\\Zwew\\Desktop\\DotNet Project\\Software-Library\\Back End\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Zwew\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4789,7 +4789,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

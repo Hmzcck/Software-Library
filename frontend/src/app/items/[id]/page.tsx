@@ -10,6 +10,7 @@ type ItemDetail = {
   name: string;
   description: string;
   publisher: string;
+  categoryNames: Array<string>;
   image: string;
   isPaid: boolean;
   reviews: Array<{
@@ -45,6 +46,7 @@ export default function ItemDetails() {
       <ItemDetail
         name={item.name}
         image={item.image}
+        categoryNames={item.categoryNames}
         publisher={item.publisher}
         description={item.description}
       />

@@ -29,6 +29,7 @@ namespace Back_End.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
             var items = await _itemService.GetAllAsync(itemFilterDto);
             return Ok(items);
         }
