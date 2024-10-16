@@ -4,28 +4,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation"; // useParams for App Router
 import ItemDetail from "@/components/itemDetail/ItemDetail";
 import ReviewList from "@/components/itemDetail/ReviewList";
-
-type ItemDetail = {
-  id: number;
-  name: string;
-  description: string;
-  publisher: string;
-  categoryNames: Array<string>;
-  image: string;
-  isPaid: boolean;
-  reviews: Array<{
-    id: number;
-    name: string;
-    rating: number;
-    comment: string;
-    createdAt: string;
-    createdBy: string;
-  }>;
-};
+import { ItemDetail as ItemDetailType } from "@/types/Item";
 
 export default function ItemDetails() {
   const { id } = useParams(); // Use useParams to get the dynamic route parameter
-  const [item, setItem] = useState<ItemDetail | null>(null);
+  const [item, setItem] = useState<ItemDetailType | null>(null);
 
   useEffect(() => {
     if (id) {

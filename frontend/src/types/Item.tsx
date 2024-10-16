@@ -10,3 +10,21 @@ export type ItemCardProps = {
   export type ItemCardContainerProps = {
     items: Array<ItemCardProps>; // Reference to ItemCardProps instead of redefining
   };
+
+  export type ItemDetail = {
+    id: number;
+    name: string;
+    description: string;
+    publisher: string;
+    categoryNames: Array<string>;
+    image: string;
+    isPaid: boolean;
+    reviews: Array<{
+      id: number;
+      name: string;
+      rating: number;
+      comment: string;
+      createdAt: string;
+      createdBy: string;
+    }>;
+  };

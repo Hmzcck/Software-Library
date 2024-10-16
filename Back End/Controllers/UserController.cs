@@ -48,7 +48,7 @@ namespace Back_End.Controllers
 
             var result = await _authService.LoginUserAsync(loginDto);
 
-            if (result == null)
+            if (!result.Success)
             {
                 return Unauthorized();
             }

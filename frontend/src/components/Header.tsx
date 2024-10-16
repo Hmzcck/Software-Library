@@ -1,17 +1,34 @@
+// app/components/Header.jsx
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Button from "./Button";
-import Categories from "./Categories"; // Import Categories component
+import Categories from "./Categories";
+import { authService } from "@/services/authService";
 
-export default function Header(): React.JSX.Element {
+export default function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsLoggedIn(authService.isLoggedIn());
+  }, []);
+
+  const handleLogout = async () => {
+    await authService.logout();
+    setIsLoggedIn(false);
+    router.push("/");
+  };
+
   return (
     <header className="w-full shadow-md bg-background">
       <div className="flex items-center justify-between p-4 bg-background">
         <div className="flex items-center mb-3">
           <img src="/logo.png" alt="Logo" className="h-12 w-auto" />
         </div>
-        
+
         <div className="relative mb-3 ml-36 w-1/2 justify-center">
           <input
             type="text"
@@ -28,26 +45,34 @@ export default function Header(): React.JSX.Element {
         </div>
 
         <div className="flex items-center space-x-10 mb-3 mr-5">
-          <Button
-            variant="header"
-            label="Login"
-            onClick={() => console.log("Login clicked")}
-          />
-          <Button
-            variant="header"
-            label="Register"
-            onClick={() => console.log("Register clicked")}
-          />
+          {!isLoggedIn ? (
+            <>
+              <Link href="/user/login">
+                <Button
+                  variant="header"
+                  label="Login"
+                  onClick={() => console.log("Login clicked")}
+                />
+              </Link>
+              <Link href="/user/register">
+                <Button
+                  variant="header"
+                  label="Register"
+                  onClick={() => console.log("Register clicked")}
+                />
+              </Link>
+            </>
+          ) : (
+            <Button variant="header" label="Logout" onClick={handleLogout} />
+          )}
         </div>
       </div>
 
       <div className="relative w-full">
-        {/* Categories component aligned to the left */}
         <div className="absolute left-0">
           <Categories />
         </div>
 
-        {/* Center-aligned Most Stars, Most Downloads, and New Softwares buttons */}
         <div className="flex justify-center">
           <div className="flex gap-x-10">
             <Button
