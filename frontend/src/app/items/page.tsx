@@ -7,7 +7,6 @@ export default async function items() {
 
   return (
     <div>
-      <h1>Software Library</h1>
       <ItemCardContainer items={data} />
     </div>
   );

@@ -91,6 +91,18 @@ export default function Header() {
               onClick={() => console.log("New Softwares clicked")}
             />
           </div>
+
+          {isLoggedIn && (
+            <div className="absolute right-0">
+              <Link href="/user/favoriteItems">
+                <Button
+                  variant="header"
+                  label="Favorite Items"
+                  onClick={() => console.log("Favorite Items clicked")}
+                />
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>
