@@ -1,18 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation"; // useParams for App Router
+import { useParams } from "next/navigation";
 import ItemDetail from "@/components/itemDetail/ItemDetail";
 import ReviewList from "@/components/itemDetail/ReviewList";
 import { ItemDetail as ItemDetailType } from "@/types/Item";
 
 export default function ItemDetails() {
-  const { id } = useParams(); // Use useParams to get the dynamic route parameter
+  const { id } = useParams();
   const [item, setItem] = useState<ItemDetailType | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [token, setToken] = useState<string>('');
 
   useEffect(() => {
+    // Check if the user is logged in and set the token
+    const userToken = localStorage.getItem('authToken');
+    if (userToken) {
+      setIsLoggedIn(true);
+      setToken(userToken);
+    }
+
     if (id) {
-      // Fetch the item details by ID from the API
       fetch(`http://localhost:5079/api/items/${id}`)
         .then((response) => response.json())
         .then((data) => setItem(data))
@@ -21,7 +29,7 @@ export default function ItemDetails() {
   }, [id]);
 
   if (!item) {
-    return <div>Loading...</div>; // Display a loading state
+    return <div>Loading...</div>;
   }
 
   return (
@@ -33,7 +41,12 @@ export default function ItemDetails() {
         publisher={item.publisher}
         description={item.description}
       />
-      <ReviewList reviews={item.reviews} />
+      <ReviewList
+        reviews={item.reviews}
+        itemId={Number(id)}
+        isLoggedIn={isLoggedIn}
+        token={token}
+      />
     </div>
   );
 }

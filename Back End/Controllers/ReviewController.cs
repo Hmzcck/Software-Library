@@ -26,7 +26,7 @@ namespace Back_End.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+
 
         public async Task<IActionResult> GetAll()
         {
@@ -38,7 +38,7 @@ namespace Back_End.Controllers
         }
 
         [HttpGet("{id:int}")]
-        [Authorize]
+
 
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
