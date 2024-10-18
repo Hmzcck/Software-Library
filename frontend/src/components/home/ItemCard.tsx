@@ -1,12 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Button from "@/components/Button"; // Keep your original Button component
+import React from "react";
+import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { Star } from "lucide-react";
 import { ItemCardProps } from "@/types/Item";
-import { fetchFavoriteItems, addFavoriteItem, removeFavoriteItem } from "@/services/user";
-import { log } from "console";
+import { addFavoriteItem, removeFavoriteItem } from "@/services/user";
+
+interface ExtendedItemCardProps extends ItemCardProps {
+  isFavorite: boolean;
+  onFavoriteToggle: () => void;
+}
 
 export default function ItemCard({
   id,
@@ -15,22 +19,10 @@ export default function ItemCard({
   publisher,
   description,
   image,
-}: ItemCardProps) {
+  isFavorite,
+  onFavoriteToggle,
+}: ExtendedItemCardProps) {
   const router = useRouter();
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  useEffect(() => {
-    const checkFavoriteStatus = async () => {
-      try {
-        const favorites = await fetchFavoriteItems();
-        console.log(favorites);
-        setIsFavorite(favorites.map((item) => item.id).includes(id));
-      } catch (error) {
-        console.error("Error fetching favorite status:", error);
-      }
-    };
-    checkFavoriteStatus();
-  }, [id]);
 
   const handleDetailsClick = () => {
     router.push(`/items/${id}`);
@@ -43,7 +35,7 @@ export default function ItemCard({
       } else {
         await addFavoriteItem(id);
       }
-      setIsFavorite(!isFavorite);
+      onFavoriteToggle();
     } catch (error) {
       console.error("Error updating favorite status:", error);
     }
