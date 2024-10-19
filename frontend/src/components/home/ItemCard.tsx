@@ -2,8 +2,10 @@
 
 import React from "react";
 import Button from "@/components/Button";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Star } from "lucide-react";
+import { Calendar, GitFork, Star } from "lucide-react";
+import { parseISO, format } from 'date-fns';
 import { ItemCardProps } from "@/types/Item";
 import { addFavoriteItem, removeFavoriteItem } from "@/services/user";
 
@@ -18,7 +20,11 @@ export default function ItemCard({
   categoryNames,
   publisher,
   description,
+  stars,
+  forks,
+  repository,
   image,
+  creationDate,
   isFavorite,
   onFavoriteToggle,
 }: ExtendedItemCardProps) {
@@ -41,8 +47,18 @@ export default function ItemCard({
     }
   };
 
+  const formattedDate = (() => {
+    try {
+      const date = parseISO(creationDate);
+      return format(date, "MMM d, yyyy");
+    } catch (error) {
+      console.error("Error parsing date:", error);
+      return creationDate; // Return original string if parsing fails
+    }
+  })();
+
   return (
-    <div className="block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark w-full h-[400px] max-w-xs overflow-hidden">
+    <div className="block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark w-full h-[450px] max-w-xs overflow-hidden">
       <div className="relative">
         <img
           className="rounded-t-lg w-full h-48 object-cover"
@@ -56,25 +72,54 @@ export default function ItemCard({
           <Star
             size={24}
             className={`${
-              isFavorite ? 'text-yellow-400 fill-current' : 'text-gray-600'
+              isFavorite ? "text-yellow-400 fill-current" : "text-gray-600"
             }`}
           />
         </button>
       </div>
       <div className="p-4 text-surface flex flex-col justify-between h-[calc(100%-12rem)]">
-        <h5 className="text-lg font-medium leading-tight text-primary mb-1">
-          {name}
-        </h5>
-        <p className="text-gray-500 text-sm mb-1">{categoryNames.join(", ")}</p>
-        <p className="text-gray-700 text-sm mb-2">Published by: {publisher}</p>
-        <p className="text-black text-sm mb-4 overflow-hidden text-ellipsis line-clamp-2">
-          {description}
-        </p>
-        <Button
-          variant="primary"
-          label="Details"
-          onClick={handleDetailsClick}
-        />
+        <div>
+          <h5 className="text-lg font-medium leading-tight text-primary mb-1">
+            {name}
+          </h5>
+          <p className="text-gray-500 text-sm mb-1">
+            {categoryNames.join(", ")}
+          </p>
+          <p className="text-gray-700 text-sm mb-2">
+            Published by: {publisher}
+          </p>
+          <p className="text-black text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
+            {description}
+          </p>
+        </div>
+
+        <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
+          <div className="flex items-center">
+            <Star size={16} className="mr-1" />
+            <span>{stars.toLocaleString()}</span>
+          </div>
+          <div className="flex items-center">
+            <GitFork size={16} className="mr-1" />
+            <span>{forks.toLocaleString()}</span>
+          </div>
+          <div className="flex items-center">
+            <Calendar size={16} className="mr-1" />
+            <span>{formattedDate}</span>
+          </div>
+        </div>
+
+        <div className="flex justify-between">
+          <Button
+            variant="primary"
+            label="Details"
+            onClick={handleDetailsClick}
+          />
+          <Button
+            variant="secondary"
+            label="Repository"
+            onClick={() => window.open(repository, "_blank")}
+          />
+        </div>
       </div>
     </div>
   );

@@ -4,7 +4,11 @@ export type ItemCardProps = {
     categoryNames: Array<string>;
     publisher: string;
     description: string;
+    stars: number;
+    forks: number;
+    repository: string;
     image: string;
+    creationDate: string;
   };
 
   export type ItemCardContainerProps = {
@@ -17,8 +21,11 @@ export type ItemCardProps = {
     description: string;
     publisher: string;
     categoryNames: Array<string>;
+    stars: number;
+    forks: number;
+    repository: string;
     image: string;
-    isPaid: boolean;
+    creationDate: string;
     reviews: Array<{
       id: number;
       name: string;
