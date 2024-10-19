@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Category } from "@/types/Category";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Button from "./Button";
+import { Category } from "@/types/Category";
 
 export default function Categories(): React.JSX.Element {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -13,6 +13,7 @@ export default function Categories(): React.JSX.Element {
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   // Fetch categories from the API
   useEffect(() => {
@@ -36,24 +37,32 @@ export default function Categories(): React.JSX.Element {
     fetchCategories();
   }, []);
 
+  // Initialize selected categories from URL
+  useEffect(() => {
+    const categoryParams = searchParams.getAll('category');
+    setSelectedCategories(categoryParams.map(Number));
+  }, [searchParams]);
+
   const toggleCategories = () => {
     setIsVisible(!isVisible);
   };
 
   // Handle selecting/unselecting categories
   const toggleCategorySelection = (categoryId: number) => {
-    setSelectedCategories(
-      (prev) =>
-        prev.includes(categoryId)
-          ? prev.filter((id) => id !== categoryId) // Remove the category if already selected
-          : [...prev, categoryId] // Add the category if not selected
+    setSelectedCategories(prev =>
+      prev.includes(categoryId)
+        ? prev.filter(id => id !== categoryId)
+        : [...prev, categoryId]
     );
   };
 
-  // Navigate to the category page with the selected category IDs in the URL
+  // Navigate to the items page with the selected category IDs in the URL
   const handleViewSelected = () => {
     if (selectedCategories.length > 0) {
-      router.push(`/categories/${selectedCategories.join(",")}`);
+      const params = new URLSearchParams(searchParams);
+      params.delete('category'); // Remove existing category params
+      selectedCategories.forEach(id => params.append('category', id.toString()));
+      router.push(`/items?${params.toString()}`);
     }
   };
 
@@ -67,30 +76,22 @@ export default function Categories(): React.JSX.Element {
 
   return (
     <div className="relative w-full max-w-md mx-auto">
-      {/* Category Button */}
       <Button
         variant="primary"
         label="Categories"
         onClick={toggleCategories}
         className="w-full flex justify-between items-center"
       >
-        <span
-          className={`transform transition-transform duration-200 ${
-            isVisible ? "rotate-180" : ""
-          }`}
-        >
+        <span className={`transform transition-transform duration-200 ${isVisible ? "rotate-180" : ""}`}>
           ▼
         </span>
       </Button>
 
-      {/* Dropdown with categories */}
       {isVisible && (
         <div className="absolute w-full bg-white shadow-lg rounded-lg mt-2 overflow-hidden z-10">
           <div className="max-h-80 overflow-y-auto p-4">
             {categories.length === 0 ? (
-              <p className="text-center text-gray-500 text-xs">
-                No categories found.
-              </p>
+              <p className="text-center text-gray-500 text-xs">No categories found.</p>
             ) : (
               <ul className="space-y-2">
                 {categories.map((category) => (

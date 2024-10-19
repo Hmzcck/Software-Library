@@ -12,6 +12,9 @@ export default function ItemCardContainer({ items }: ItemCardContainerProps) {
   useEffect(() => {
     const loadFavorites = async () => {
       try {
+        if (!localStorage.getItem("authToken")) {
+          return;
+        }
         const favorites = await fetchFavoriteItems();
         setFavoriteItemIds(favorites.map((item) => item.id));
       } catch (error) {
