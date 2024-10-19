@@ -19,8 +19,10 @@ namespace Back_End.Mappers
                 Name = item.Name,
                 Description = item.Description,
                 Publisher = item.Publisher,
-                IsPaid = item.IsPaid,
+                Stars = item.Stars,
+                Forks = item.Forks,
                 Image = item.Image,
+                CreationDate = item.CreationDate,
                 Reviews = item.Reviews.Select(review => review.ToReviewResponseDto()).ToList(),
                 CategoryIds = item.Categories.Select(c => c.Id).ToList(),
                 CategoryNames = item.Categories.Select(c => c.Name).ToList()
@@ -34,8 +36,10 @@ namespace Back_End.Mappers
                 Name = createItemRequestDto.Name,
                 Description = createItemRequestDto.Description,
                 Publisher = createItemRequestDto.Publisher,
-                IsPaid = createItemRequestDto.IsPaid,
+                Stars = createItemRequestDto.Stars,
+                Forks = createItemRequestDto.Forks,
                 Image = createItemRequestDto.Image,
+                CreationDate = DateTime.Now,
                 Categories = createItemRequestDto.CategoryIds.Select(id => new CategoryModel { Id = id }).ToList()
             };
         }
@@ -47,8 +51,10 @@ namespace Back_End.Mappers
                 Name = updateItemRequestDto.Name,
                 Description = updateItemRequestDto.Description,
                 Publisher = updateItemRequestDto.Publisher,
-                IsPaid = updateItemRequestDto.IsPaid,
+                Stars = updateItemRequestDto.Stars,
+                Forks = updateItemRequestDto.Forks,
                 Image = updateItemRequestDto.Image,
+                CreationDate = updateItemRequestDto.CreationDate,
                 Categories = updateItemRequestDto.CategoryIds.Select(id => new CategoryModel { Id = id }).ToList()
             };
         }

@@ -14,9 +14,13 @@ namespace Back_End.DTOs.Item
         public string Description { get; set; } = string.Empty;
         public string Publisher { get; set; } = string.Empty;
 
-        public Boolean IsPaid { get; set; }
+        public int Stars { get; set; }
+
+        public int Forks { get; set; }
 
         public string Image { get; set; } = string.Empty;
+
+        public DateTime CreationDate { get; set; } = DateTime.Now;
 
         public List<ReviewResponseDto> Reviews { get; set; }
 

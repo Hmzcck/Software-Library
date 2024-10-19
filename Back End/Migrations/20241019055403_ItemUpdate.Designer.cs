@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Back_End.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240919054530_Roles")]
-    partial class Roles
+    [Migration("20241019055403_ItemUpdate")]
+    partial class ItemUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,16 +54,19 @@ namespace Back_End.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Forks")
+                        .HasColumnType("int");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -72,6 +75,9 @@ namespace Back_End.Migrations
                     b.Property<string>("Publisher")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Stars")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -103,11 +109,32 @@ namespace Back_End.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("Back_End.Models.UserFavoriteItem", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ItemId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("UserFavoriteItems");
                 });
 
             modelBuilder.Entity("Back_End.Models.UserModel", b =>
@@ -219,13 +246,13 @@ namespace Back_End.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "085f6914-48b8-48f2-a999-d5ba623bfc9e",
+                            Id = "62f2ed5b-cdbf-49c2-9d1d-ded9e7451e79",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4a7c184d-f5ea-4a22-9493-373da85d2b64",
+                            Id = "01500b4e-5ec6-4dbe-8270-b5dee8c80ce3",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -343,7 +370,34 @@ namespace Back_End.Migrations
                         .WithMany("Reviews")
                         .HasForeignKey("ItemId");
 
+                    b.HasOne("Back_End.Models.UserModel", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Item");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Back_End.Models.UserFavoriteItem", b =>
+                {
+                    b.HasOne("Back_End.Models.ItemModel", "Item")
+                        .WithMany("UserFavoriteItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Back_End.Models.UserModel", "User")
+                        .WithMany("UserFavoriteItems")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CategoryModelItemModel", b =>
@@ -415,6 +469,13 @@ namespace Back_End.Migrations
             modelBuilder.Entity("Back_End.Models.ItemModel", b =>
                 {
                     b.Navigation("Reviews");
+
+                    b.Navigation("UserFavoriteItems");
+                });
+
+            modelBuilder.Entity("Back_End.Models.UserModel", b =>
+                {
+                    b.Navigation("UserFavoriteItems");
                 });
 #pragma warning restore 612, 618
         }

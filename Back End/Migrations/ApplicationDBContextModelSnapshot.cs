@@ -51,16 +51,19 @@ namespace Back_End.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Forks")
+                        .HasColumnType("int");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -69,6 +72,9 @@ namespace Back_End.Migrations
                     b.Property<string>("Publisher")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Stars")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -237,13 +243,13 @@ namespace Back_End.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "94979867-ca90-4e32-8df6-6119f17e1042",
+                            Id = "62f2ed5b-cdbf-49c2-9d1d-ded9e7451e79",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d5ea4530-dc6c-406a-8c08-580d612a4dcc",
+                            Id = "01500b4e-5ec6-4dbe-8270-b5dee8c80ce3",
                             Name = "User",
                             NormalizedName = "USER"
                         });

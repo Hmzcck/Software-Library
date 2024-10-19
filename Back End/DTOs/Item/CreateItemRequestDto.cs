@@ -12,9 +12,12 @@ namespace Back_End.DTOs.Item
         public string Description { get; set; } = string.Empty;
         public String Publisher { get; set; } = string.Empty;
 
-        public Boolean IsPaid { get; set; }
+        public int Stars { get; set; }
+
+        public int Forks { get; set; }
 
         public String Image { get; set; } = string.Empty;
+
 
         public List<int> CategoryIds { get; set; } = new List<int>();
 

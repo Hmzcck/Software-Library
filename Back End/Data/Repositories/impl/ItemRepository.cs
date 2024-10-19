@@ -48,6 +48,21 @@ namespace Back_End.Data.Repositories.impl
                 query = query.Where(item => item.Reviews.Average(r => r.Rating) >= itemFilterDto.MinRating.Value);
             }
 
+            if (itemFilterDto.MostStars)
+            {
+                query = query.OrderByDescending(item => item.Stars);
+            }
+
+            if (itemFilterDto.MostForks)
+            {
+                query = query.OrderByDescending(item => item.Forks);
+            }
+
+            if (itemFilterDto.MostRecent)
+            {
+                query = query.OrderByDescending(item => item.CreationDate);
+            }
+
             return await query.Skip((itemFilterDto.PageNumber - 1) * itemFilterDto.PageSize)
     .Take(itemFilterDto.PageSize).ToListAsync();
 
@@ -88,8 +103,10 @@ namespace Back_End.Data.Repositories.impl
             existingItem.Name = updateItemRequestDto.Name;
             existingItem.Description = updateItemRequestDto.Description;
             existingItem.Publisher = updateItemRequestDto.Publisher;
-            existingItem.IsPaid = updateItemRequestDto.IsPaid;
+            existingItem.Stars = updateItemRequestDto.Stars;
+            existingItem.Forks = updateItemRequestDto.Forks;
             existingItem.Image = updateItemRequestDto.Image;
+            existingItem.CreationDate = updateItemRequestDto.CreationDate;
             existingItem.Categories = updateItemRequestDto.CategoryIds.Select(id => new CategoryModel { Id = id }).ToList();
 
             await _context.SaveChangesAsync();

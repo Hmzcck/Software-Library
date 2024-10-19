@@ -12,6 +12,12 @@ namespace Back_End.DTOs.Item
         public string? Publisher { get; set; }
         public int? MinRating { get; set; }
 
+        public Boolean MostStars { get; set; } = false;
+
+        public Boolean MostForks { get; set; } = false;
+
+        public Boolean MostRecent { get; set; } = false;
+
         public int PageNumber { get; set; } = 1;
 
         public int PageSize { get; set; } = 15;

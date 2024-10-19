@@ -46,8 +46,10 @@ namespace Back_End.Services.impl
                 Name = createItemRequestDto.Name,
                 Description = createItemRequestDto.Description,
                 Publisher = createItemRequestDto.Publisher,
-                IsPaid = createItemRequestDto.IsPaid,
+                Stars = createItemRequestDto.Stars,
+                Forks = createItemRequestDto.Forks,
                 Image = createItemRequestDto.Image,
+                CreationDate = DateTime.Now,
                 Categories = categories
             };
             return await _itemRepository.CreateAsync(item);

@@ -14,9 +14,17 @@ namespace Back_End.DTOs.Item
         public string Description { get; set; } = string.Empty;
         [MaxLength(100, ErrorMessage = "Publisher cannot be longer than 100 characters.")]
         public String Publisher { get; set; } = string.Empty;
-        public Boolean IsPaid { get; set; }
+        
+        [Range(0, int.MaxValue, ErrorMessage = "Stars must be greater than or equal to 0.")]
+        public int Stars { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "Forks must be greater than or equal to 0.")]
+        public int Forks { get; set; }
+
         [MaxLength(300, ErrorMessage = "Image URL cannot be longer than 300 characters.")]
         public String Image { get; set; } = string.Empty;
+
+        public DateTime CreationDate { get; set; } = DateTime.Now;
 
         public List<int> CategoryIds { get; set; } = new List<int>();
 
