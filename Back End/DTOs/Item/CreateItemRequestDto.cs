@@ -16,6 +16,8 @@ namespace Back_End.DTOs.Item
 
         public int Forks { get; set; }
 
+        public string Repository { get; set; } = string.Empty;
+
         public String Image { get; set; } = string.Empty;
 
 

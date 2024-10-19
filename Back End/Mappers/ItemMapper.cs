@@ -21,6 +21,7 @@ namespace Back_End.Mappers
                 Publisher = item.Publisher,
                 Stars = item.Stars,
                 Forks = item.Forks,
+                Repository = item.Repository,
                 Image = item.Image,
                 CreationDate = item.CreationDate,
                 Reviews = item.Reviews.Select(review => review.ToReviewResponseDto()).ToList(),
@@ -38,6 +39,7 @@ namespace Back_End.Mappers
                 Publisher = createItemRequestDto.Publisher,
                 Stars = createItemRequestDto.Stars,
                 Forks = createItemRequestDto.Forks,
+                Repository = createItemRequestDto.Repository,
                 Image = createItemRequestDto.Image,
                 CreationDate = DateTime.Now,
                 Categories = createItemRequestDto.CategoryIds.Select(id => new CategoryModel { Id = id }).ToList()
@@ -53,6 +55,7 @@ namespace Back_End.Mappers
                 Publisher = updateItemRequestDto.Publisher,
                 Stars = updateItemRequestDto.Stars,
                 Forks = updateItemRequestDto.Forks,
+                Repository = updateItemRequestDto.Repository,
                 Image = updateItemRequestDto.Image,
                 CreationDate = updateItemRequestDto.CreationDate,
                 Categories = updateItemRequestDto.CategoryIds.Select(id => new CategoryModel { Id = id }).ToList()

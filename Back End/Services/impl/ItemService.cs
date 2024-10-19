@@ -48,6 +48,7 @@ namespace Back_End.Services.impl
                 Publisher = createItemRequestDto.Publisher,
                 Stars = createItemRequestDto.Stars,
                 Forks = createItemRequestDto.Forks,
+                Repository = createItemRequestDto.Repository,
                 Image = createItemRequestDto.Image,
                 CreationDate = DateTime.Now,
                 Categories = categories

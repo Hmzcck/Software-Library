@@ -105,6 +105,7 @@ namespace Back_End.Data.Repositories.impl
             existingItem.Publisher = updateItemRequestDto.Publisher;
             existingItem.Stars = updateItemRequestDto.Stars;
             existingItem.Forks = updateItemRequestDto.Forks;
+            existingItem.Repository = updateItemRequestDto.Repository;
             existingItem.Image = updateItemRequestDto.Image;
             existingItem.CreationDate = updateItemRequestDto.CreationDate;
             existingItem.Categories = updateItemRequestDto.CategoryIds.Select(id => new CategoryModel { Id = id }).ToList();

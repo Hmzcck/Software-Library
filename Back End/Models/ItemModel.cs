@@ -21,6 +21,8 @@ namespace Back_End.Models
 
         public int Forks { get; set; } 
 
+        public string Repository { get; set; } = string.Empty;
+
         public string Image { get; set; } = string.Empty;
 
         public DateTime CreationDate { get; set; } = DateTime.Now;

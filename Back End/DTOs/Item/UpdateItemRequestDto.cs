@@ -21,6 +21,9 @@ namespace Back_End.DTOs.Item
         [Range(0, int.MaxValue, ErrorMessage = "Forks must be greater than or equal to 0.")]
         public int Forks { get; set; }
 
+        [MaxLength(300, ErrorMessage = "Repository URL cannot be longer than 300 characters.")]
+        public string Repository { get; set; } = string.Empty;
+
         [MaxLength(300, ErrorMessage = "Image URL cannot be longer than 300 characters.")]
         public String Image { get; set; } = string.Empty;
 
