@@ -38,6 +38,10 @@ export default function ItemDetails() {
         name={item.name}
         image={item.image}
         categoryNames={item.categoryNames}
+        stars={item.stars}
+        forks={item.forks}
+        repository={item.repository}
+        creationDate={item.creationDate}
         publisher={item.publisher}
         description={item.description}
       />

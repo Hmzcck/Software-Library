@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Calendar, GitFork, Star } from "lucide-react";
-import { parseISO, format } from 'date-fns';
+import { formatDate } from "@/lib/helpers/Date";
 import { ItemCardProps } from "@/types/Item";
 import { addFavoriteItem, removeFavoriteItem } from "@/services/user";
 
@@ -47,15 +47,7 @@ export default function ItemCard({
     }
   };
 
-  const formattedDate = (() => {
-    try {
-      const date = parseISO(creationDate);
-      return format(date, "MMM d, yyyy");
-    } catch (error) {
-      console.error("Error parsing date:", error);
-      return creationDate; // Return original string if parsing fails
-    }
-  })();
+
 
   return (
     <div className="block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark w-full h-[450px] max-w-xs overflow-hidden">
@@ -104,7 +96,7 @@ export default function ItemCard({
           </div>
           <div className="flex items-center">
             <Calendar size={16} className="mr-1" />
-            <span>{formattedDate}</span>
+            <span>{formatDate(creationDate)}</span>
           </div>
         </div>
 
