@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Button from "./Button";
 import { Category } from "@/types/Category";
+import { ChevronDown, Check } from 'lucide-react';
 
 export default function Categories(): React.JSX.Element {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -39,7 +40,7 @@ export default function Categories(): React.JSX.Element {
 
   // Initialize selected categories from URL
   useEffect(() => {
-    const categoryParams = searchParams.getAll('category');
+    const categoryParams = searchParams.getAll("category");
     setSelectedCategories(categoryParams.map(Number));
   }, [searchParams]);
 
@@ -49,9 +50,9 @@ export default function Categories(): React.JSX.Element {
 
   // Handle selecting/unselecting categories
   const toggleCategorySelection = (categoryId: number) => {
-    setSelectedCategories(prev =>
+    setSelectedCategories((prev) =>
       prev.includes(categoryId)
-        ? prev.filter(id => id !== categoryId)
+        ? prev.filter((id) => id !== categoryId)
         : [...prev, categoryId]
     );
   };
@@ -60,8 +61,10 @@ export default function Categories(): React.JSX.Element {
   const handleViewSelected = () => {
     if (selectedCategories.length > 0) {
       const params = new URLSearchParams(searchParams);
-      params.delete('category'); // Remove existing category params
-      selectedCategories.forEach(id => params.append('category', id.toString()));
+      params.delete("category"); // Remove existing category params
+      selectedCategories.forEach((id) =>
+        params.append("category", id.toString())
+      );
       router.push(`/items?${params.toString()}`);
     }
   };
@@ -75,58 +78,61 @@ export default function Categories(): React.JSX.Element {
   }
 
   return (
-    <div className="relative w-full max-w-md mx-auto">
-      <Button
-        variant="primary"
-        label="Categories"
-        onClick={toggleCategories}
-        className="w-full flex justify-between items-center"
-      >
-        <span className={`transform transition-transform duration-200 ${isVisible ? "rotate-180" : ""}`}>
-          ▼
-        </span>
-      </Button>
+    <div className="relative">
+    <button
+      onClick={toggleCategories}
+      className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-left bg-card text-card-foreground rounded-lg shadow-md hover:bg-muted focus:outline-none focus-visible:ring focus-visible:ring-primary focus-visible:ring-opacity-75 transition-colors duration-200"
+    >
+      <span>Categories</span>
+      <ChevronDown
+        className={`w-5 h-5 ml-2 -mr-1 text-muted-foreground transition-transform duration-200 ${
+          isVisible ? 'transform rotate-180' : ''
+        }`}
+        aria-hidden="true"
+      />
+    </button>
 
-      {isVisible && (
-        <div className="absolute w-full bg-white shadow-lg rounded-lg mt-2 overflow-hidden z-10">
-          <div className="max-h-80 overflow-y-auto p-4">
-            {categories.length === 0 ? (
-              <p className="text-center text-gray-500 text-xs">No categories found.</p>
-            ) : (
-              <ul className="space-y-2">
-                {categories.map((category) => (
-                  <li key={category.id} className="flex items-center">
-                    <label className="flex items-center space-x-3 w-full cursor-pointer hover:bg-gray-100 p-2 rounded">
-                      <input
-                        type="checkbox"
-                        checked={selectedCategories.includes(category.id)}
-                        onChange={() => toggleCategorySelection(category.id)}
-                        className="form-checkbox h-4 w-4 text-blue-500"
-                      />
-                      <span className="text-gray-700 text-xs">
-                        {category.name || "Unnamed Category"}
-                      </span>
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          <div className="p-4 bg-gray-50 border-t">
-            <button
-              onClick={handleViewSelected}
-              className={`w-full text-center p-2 rounded-lg transition-colors duration-200 text-xs ${
-                selectedCategories.length > 0
-                  ? "bg-green-500 text-white hover:bg-green-600"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
-              disabled={selectedCategories.length === 0}
-            >
-              View Selected Categories ({selectedCategories.length})
-            </button>
-          </div>
+    {isVisible && (
+      <div className="absolute z-10 w-full mt-2 origin-top-right bg-card rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <div className="py-1 max-h-60 overflow-auto">
+          {categories.length === 0 ? (
+            <p className="px-4 py-2 text-sm text-muted-foreground">No categories found.</p>
+          ) : (
+            categories.map((category) => (
+              <div
+                key={category.id}
+                className="flex items-center px-4 py-2 text-sm text-card-foreground hover:bg-muted cursor-pointer transition-colors duration-200"
+                onClick={() => toggleCategorySelection(category.id)}
+              >
+                <div className={`w-4 h-4 mr-2 rounded border ${
+                  selectedCategories.includes(category.id)
+                    ? 'bg-primary border-primary'
+                    : 'border-muted-foreground'
+                } flex items-center justify-center transition-colors duration-200`}>
+                  {selectedCategories.includes(category.id) && (
+                    <Check className="w-3 h-3 text-primary-foreground" />
+                  )}
+                </div>
+                <span>{category.name || "Unnamed Category"}</span>
+              </div>
+            ))
+          )}
         </div>
-      )}
-    </div>
+        <div className="border-t border-border">
+          <button
+            onClick={handleViewSelected}
+            className={`block w-full text-left px-4 py-2 text-sm ${
+              selectedCategories.length > 0
+                ? 'text-primary hover:bg-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200'
+                : 'text-muted-foreground cursor-not-allowed'
+            }`}
+            disabled={selectedCategories.length === 0}
+          >
+            View Selected ({selectedCategories.length})
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
   );
 }

@@ -1,10 +1,14 @@
+'use client'
 
-import Home from "./items/page";
+import { ThemeProvider } from 'next-themes'
+import Home from "./items/page"
 
 export default function App() {
   return (
-    <div>
-      <Home />
-    </div>
-  );
+    <ThemeProvider attribute="class">
+      <div className="min-h-screen bg-background text-foreground">
+        <Home />
+      </div>
+    </ThemeProvider>
+  )
 }

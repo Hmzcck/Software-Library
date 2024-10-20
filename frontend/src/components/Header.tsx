@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Button from "./Button";
 import Categories from "./Categories";
 import { authService } from "@/services/authService";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,28 +24,25 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full shadow-md bg-background">
-      <div className="flex items-center justify-between p-4 bg-background">
+    <header className="header">
+      <div className="header-content">
         <div className="flex items-center mb-3">
-          <img src="/logo.png" alt="Logo" className="h-12 w-auto" />
+          <img src="/logo.png" alt="Logo" className="header-logo" />
         </div>
 
-        <div className="relative mb-3 ml-36 w-1/2 justify-center">
+        <div className="header-search">
           <input
             type="text"
-            className="peer block min-h-[auto] w-full bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary rounded border-2 border-primary"
+            className="header-search-input"
             id="Search"
             placeholder="Search for a software..."
           />
-          <label
-            htmlFor="Search"
-            className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.5rem] peer-focus:scale-[0.8] peer-focus:text-primary"
-          >
+          <label htmlFor="Search" className="header-search-label">
             Search for a software...
           </label>
         </div>
 
-        <div className="flex items-center space-x-10 mb-3 mr-5">
+        <div className="header-buttons">
           {!isLoggedIn ? (
             <>
               <Link href="/user/login">
@@ -117,6 +115,9 @@ export default function Header() {
               </Link>
             </div>
           )}
+          <div className="absolute right-40">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>
