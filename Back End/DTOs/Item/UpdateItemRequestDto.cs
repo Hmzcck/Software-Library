@@ -14,7 +14,7 @@ namespace Back_End.DTOs.Item
         public string Description { get; set; } = string.Empty;
         [MaxLength(100, ErrorMessage = "Publisher cannot be longer than 100 characters.")]
         public String Publisher { get; set; } = string.Empty;
-        
+
         [Range(0, int.MaxValue, ErrorMessage = "Stars must be greater than or equal to 0.")]
         public int Stars { get; set; }
 
