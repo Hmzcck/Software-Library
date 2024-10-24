@@ -10,11 +10,11 @@ export default function ItemDetails() {
   const { id } = useParams();
   const [item, setItem] = useState<ItemDetailType | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [token, setToken] = useState<string>('');
+  const [token, setToken] = useState<string>("");
 
   useEffect(() => {
     // Check if the user is logged in and set the token
-    const userToken = localStorage.getItem('authToken');
+    const userToken = localStorage.getItem("authToken");
     if (userToken) {
       setIsLoggedIn(true);
       setToken(userToken);

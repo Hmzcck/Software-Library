@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { ThemeProvider } from 'next-themes'
-import Home from "./items/page"
+import { ThemeProvider } from "next-themes";
+import Home from "./items/page";
 
 export default function App() {
   return (
@@ -10,5 +10,5 @@ export default function App() {
         <Home />
       </div>
     </ThemeProvider>
-  )
+  );
 }

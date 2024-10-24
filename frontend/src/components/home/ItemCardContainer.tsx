@@ -36,21 +36,21 @@ export default function ItemCardContainer({ items }: ItemCardContainerProps) {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {items.map((item) => (
-        <ItemCard
-          key={item.id}
-          {...item}
-          isFavorite={favoriteItemIds.includes(item.id)}
-          onFavoriteToggle={() => handleFavoriteToggle(item.id)}
-        />
-      ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {items.map((item) => (
+          <ItemCard
+            key={item.id}
+            {...item}
+            isFavorite={favoriteItemIds.includes(item.id)}
+            onFavoriteToggle={() => handleFavoriteToggle(item.id)}
+          />
+        ))}
+      </div>
     </div>
-  </div>
   );
 }

@@ -2,9 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Button from "./Button";
 import { Category } from "@/types/Category";
-import { ChevronDown, Check } from 'lucide-react';
+import { ChevronDown, Check } from "lucide-react";
 
 export default function Categories(): React.JSX.Element {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -79,60 +78,64 @@ export default function Categories(): React.JSX.Element {
 
   return (
     <div className="relative">
-    <button
-      onClick={toggleCategories}
-      className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-left bg-card text-card-foreground rounded-lg shadow-md hover:bg-muted focus:outline-none focus-visible:ring focus-visible:ring-primary focus-visible:ring-opacity-75 transition-colors duration-200"
-    >
-      <span>Categories</span>
-      <ChevronDown
-        className={`w-5 h-5 ml-2 -mr-1 text-muted-foreground transition-transform duration-200 ${
-          isVisible ? 'transform rotate-180' : ''
-        }`}
-        aria-hidden="true"
-      />
-    </button>
+      <button
+        onClick={toggleCategories}
+        className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-left bg-card text-card-foreground rounded-lg shadow-md hover:bg-muted focus:outline-none focus-visible:ring focus-visible:ring-primary focus-visible:ring-opacity-75 transition-colors duration-200"
+      >
+        <span>Categories</span>
+        <ChevronDown
+          className={`w-5 h-5 ml-2 -mr-1 text-muted-foreground transition-transform duration-200 ${
+            isVisible ? "transform rotate-180" : ""
+          }`}
+          aria-hidden="true"
+        />
+      </button>
 
-    {isVisible && (
-      <div className="absolute z-10 w-full mt-2 origin-top-right bg-card rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-        <div className="py-1 max-h-60 overflow-auto">
-          {categories.length === 0 ? (
-            <p className="px-4 py-2 text-sm text-muted-foreground">No categories found.</p>
-          ) : (
-            categories.map((category) => (
-              <div
-                key={category.id}
-                className="flex items-center px-4 py-2 text-sm text-card-foreground hover:bg-muted cursor-pointer transition-colors duration-200"
-                onClick={() => toggleCategorySelection(category.id)}
-              >
-                <div className={`w-4 h-4 mr-2 rounded border ${
-                  selectedCategories.includes(category.id)
-                    ? 'bg-primary border-primary'
-                    : 'border-muted-foreground'
-                } flex items-center justify-center transition-colors duration-200`}>
-                  {selectedCategories.includes(category.id) && (
-                    <Check className="w-3 h-3 text-primary-foreground" />
-                  )}
+      {isVisible && (
+        <div className="absolute z-10 w-full mt-2 origin-top-right bg-card rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <div className="py-1 max-h-60 overflow-auto">
+            {categories.length === 0 ? (
+              <p className="px-4 py-2 text-sm text-muted-foreground">
+                No categories found.
+              </p>
+            ) : (
+              categories.map((category) => (
+                <div
+                  key={category.id}
+                  className="flex items-center px-4 py-2 text-sm text-card-foreground hover:bg-muted cursor-pointer transition-colors duration-200"
+                  onClick={() => toggleCategorySelection(category.id)}
+                >
+                  <div
+                    className={`w-4 h-4 mr-2 rounded border ${
+                      selectedCategories.includes(category.id)
+                        ? "bg-primary border-primary"
+                        : "border-muted-foreground"
+                    } flex items-center justify-center transition-colors duration-200`}
+                  >
+                    {selectedCategories.includes(category.id) && (
+                      <Check className="w-3 h-3 text-primary-foreground" />
+                    )}
+                  </div>
+                  <span>{category.name || "Unnamed Category"}</span>
                 </div>
-                <span>{category.name || "Unnamed Category"}</span>
-              </div>
-            ))
-          )}
+              ))
+            )}
+          </div>
+          <div className="border-t border-border">
+            <button
+              onClick={handleViewSelected}
+              className={`block w-full text-left px-4 py-2 text-sm ${
+                selectedCategories.length > 0
+                  ? "text-primary hover:bg-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200"
+                  : "text-muted-foreground cursor-not-allowed"
+              }`}
+              disabled={selectedCategories.length === 0}
+            >
+              View Selected ({selectedCategories.length})
+            </button>
+          </div>
         </div>
-        <div className="border-t border-border">
-          <button
-            onClick={handleViewSelected}
-            className={`block w-full text-left px-4 py-2 text-sm ${
-              selectedCategories.length > 0
-                ? 'text-primary hover:bg-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200'
-                : 'text-muted-foreground cursor-not-allowed'
-            }`}
-            disabled={selectedCategories.length === 0}
-          >
-            View Selected ({selectedCategories.length})
-          </button>
-        </div>
-      </div>
-    )}
-  </div>
+      )}
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { postReview, getReviews } from "@/services/review";
 import { Review, ReviewListProps, ReviewData } from "@/types/review";
-import { Star } from 'lucide-react';
+import { Star } from "lucide-react";
 
 const ReviewList: React.FC<ReviewListProps> = ({
   reviews: initialReviews,

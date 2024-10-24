@@ -1,4 +1,3 @@
-
 const BASE_URL = "http://localhost:5079/api/user"; //  base URL
 
 export const authService = {

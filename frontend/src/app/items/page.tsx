@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import ItemCardContainer from "@/components/home/ItemCardContainer";
 import { fetchItems } from "@/services/item";
 
@@ -16,22 +16,22 @@ export default function Items() {
       setLoading(true);
       setError(null);
 
-      const categoryIds = searchParams.getAll('category').map(Number);
-      const MostStars = searchParams.get('sort') === 'stars';
-      const MostForks = searchParams.get('sort') === 'forks';
-      const MostRecent = searchParams.get('sort') === 'new';
+      const categoryIds = searchParams.getAll("category").map(Number);
+      const MostStars = searchParams.get("sort") === "stars";
+      const MostForks = searchParams.get("sort") === "forks";
+      const MostRecent = searchParams.get("sort") === "new";
 
       try {
         const data = await fetchItems({
           categoryIds,
           MostStars,
           MostForks,
-          MostRecent
+          MostRecent,
         });
         setItems(data);
       } catch (error) {
-        console.error('Failed to fetch items:', error);
-        setError('Failed to fetch items. Please try again later.');
+        console.error("Failed to fetch items:", error);
+        setError("Failed to fetch items. Please try again later.");
       } finally {
         setLoading(false);
       }
