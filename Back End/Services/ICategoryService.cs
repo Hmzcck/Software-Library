@@ -12,9 +12,9 @@ namespace Back_End.Services
     {
         //CRUD
 
-        public  Task<List<CategoryModel>> GetAllAsync();
+        public  Task<List<CategoryResponseDto>> GetAllAsync();
 
-        public Task<CategoryModel?> GetByIdAsync(int id);
+        public Task<CategoryResponseDto?> GetByIdAsync(int id);
 
         public Task<CategoryModel> CreateAsync(CreateCategoryRequestDto createCategoryRequestDto);
 

@@ -13,44 +13,69 @@ namespace Back_End.Services.impl
     public class CategoryService : ICategoryService
     {
 
-        private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryService(ICategoryRepository categoryRepository)
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICacheService _cache;
+
+        private const string AllCategoriesCacheKey = "categories";
+
+        public CategoryService(ICategoryRepository categoryRepository, ICacheService cache)
         {
             _categoryRepository = categoryRepository;
+            _cache = cache;
         }
 
-        public async Task<List<CategoryModel>> GetAllAsync()
+
+        public async Task<List<CategoryResponseDto>> GetAllAsync()
         {
-            return await _categoryRepository.GetAllAsync();
+            var cachedCategories = await _cache.GetAsync<List<CategoryResponseDto>>(AllCategoriesCacheKey);
+            if (cachedCategories != null)
+            {
+                return cachedCategories;
+            }
+
+            var categories = await _categoryRepository.GetAllAsync();
+            var categoryResponseDtos = categories.Select(c => c.ToCategoryResponseDto()).ToList();
+            await _cache.SetAsync(AllCategoriesCacheKey, categoryResponseDtos, TimeSpan.FromMinutes(10));
+            return categoryResponseDtos;
         }
 
-        public async Task<CategoryModel?> GetByIdAsync(int id)
+        public async Task<CategoryResponseDto?> GetByIdAsync(int id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
             if (category == null)
             {
                 throw new Exception("Category not found"); // Or handle this with custom exception handling
             }
-            return category;
+            var categoryResponseDto = category.ToCategoryResponseDto();
+            return categoryResponseDto;
         }
 
         public async Task<CategoryModel> CreateAsync(CreateCategoryRequestDto createCategoryRequestDto)
         {
             var categoryModel = createCategoryRequestDto.ToCategoryModel();
+            var createdCategory = await _categoryRepository.CreateAsync(categoryModel, createCategoryRequestDto.ItemIds);
 
-            return await _categoryRepository.CreateAsync(categoryModel);
+            // Invalidate the all categories cache
+            await _cache.ClearAsync(AllCategoriesCacheKey);
+
+            return createdCategory;
         }
 
         public async Task<CategoryModel?> UpdateAsync(int id, UpdateCategoryRequestDto updateCategoryRequestDto)
         {
             var existingCategory = await _categoryRepository.GetByIdAsync(id);
-
             if (existingCategory == null)
             {
                 throw new Exception("Category not found");
             }
-            return await _categoryRepository.UpdateAsync(existingCategory, updateCategoryRequestDto);
+
+            var updatedCategory = await _categoryRepository.UpdateAsync(existingCategory, updateCategoryRequestDto);
+
+            // Invalidate caches
+            await _cache.ClearAsync(AllCategoriesCacheKey);
+
+            return updatedCategory;
 
         }
 
@@ -62,7 +87,12 @@ namespace Back_End.Services.impl
                 throw new Exception("Category not found");
             }
 
-            return await _categoryRepository.DeleteAsync(category);
+            var deletedCategory = await _categoryRepository.DeleteAsync(category);
+
+            // Invalidate caches
+            await _cache.ClearAsync(AllCategoriesCacheKey);
+
+            return deletedCategory;
         }
     }
 }

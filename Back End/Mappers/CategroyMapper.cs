@@ -26,7 +26,6 @@ namespace Back_End.Mappers
             {
                 Name = categoryRequestDto.Name,
                 Description = categoryRequestDto.Description,
-                Items = categoryRequestDto.ItemIds?.Select(id => new ItemModel { Id = id }).ToList()
             };
         }
     }

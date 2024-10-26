@@ -29,16 +29,19 @@ namespace Back_End.Data.Repositories.impl
             return category;
         }
 
-        public async Task<CategoryModel> CreateAsync(CategoryModel CategoryModel)
+        public async Task<CategoryModel> CreateAsync(CategoryModel categoryModel, List<int> itemIds)
         {
-            // Add the category to the context
-            _context.Categories.Add(CategoryModel);
+            var items = await _context.Items
+                .Where(i => itemIds.Contains(i.Id))
+                .ToListAsync();
+                
+            categoryModel.Items = items;
 
-            // Save changes to the database
+            _context.Categories.Add(categoryModel);
+
             await _context.SaveChangesAsync();
 
-            // Return the created category
-            return CategoryModel;
+            return categoryModel;
         }
 
 

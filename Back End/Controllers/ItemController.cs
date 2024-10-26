@@ -17,12 +17,12 @@ namespace Back_End.Controllers
     [ApiController]
     public class ItemController : ControllerBase
     {
-        private readonly IItemService _itemService;
-
-        public ItemController(IItemService itemService)
+        private readonly IItemService _itemService;    
+        public ItemController(IItemService itemService, ICacheService cacheService)
         {
             _itemService = itemService;
         }
+
 
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] ItemFilterDto itemFilterDto)

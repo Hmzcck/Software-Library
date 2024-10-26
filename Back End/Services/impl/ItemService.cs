@@ -6,6 +6,7 @@ using Back_End.Data.Repositories;
 using Back_End.DTOs.Item;
 using Back_End.Mappers;
 using Back_End.Models;
+using Newtonsoft.Json;
 
 namespace Back_End.Services.impl
 {
@@ -15,16 +16,35 @@ namespace Back_End.Services.impl
         private readonly IItemRepository _itemRepository;
         private readonly ICategoryRepository _categoryRepository;
 
-        public ItemService(IItemRepository itemRepository, ICategoryRepository categoryRepository)
+        private readonly ICacheService _cache;
+
+        public ItemService(IItemRepository itemRepository, ICategoryRepository categoryRepository, ICacheService cache)
         {
             _itemRepository = itemRepository;
             _categoryRepository = categoryRepository;
+            _cache = cache;
         }
 
         public async Task<List<ItemResponseDto>> GetAllAsync(ItemFilterDto itemFilterDto)
         {
+            // caching
+            string cacheKey = $"items_{JsonConvert.SerializeObject(itemFilterDto)}";
+
+            var cachedItems = await _cache.GetAsync<List<ItemResponseDto>>(cacheKey);
+
+
+            if (cachedItems != null)
+            {
+                return cachedItems;
+            }
+
+
             var items = await _itemRepository.GetAllAsync(itemFilterDto);
-            return items.Select(ItemMapper.ToItemResponseDto).ToList();
+            var itemResponseDtos = items.Select(ItemMapper.ToItemResponseDto).ToList();
+
+            await _cache.SetAsync(cacheKey, itemResponseDtos, TimeSpan.FromMinutes(10));
+
+            return itemResponseDtos;
         }
 
         public async Task<ItemResponseDto?> GetByIdAsync(int id)
@@ -53,7 +73,13 @@ namespace Back_End.Services.impl
                 CreationDate = DateTime.Now,
                 Categories = categories
             };
-            return await _itemRepository.CreateAsync(item);
+
+            var createdItem = await _itemRepository.CreateAsync(item);
+
+            // Clear cache
+            await _cache.ClearAsync("items_");
+
+            return createdItem;
         }
 
         public async Task<ItemModel?> UpdateAsync(int id, UpdateItemRequestDto updateItemRequestDto)
@@ -64,7 +90,11 @@ namespace Back_End.Services.impl
             {
                 throw new Exception("Item not found");
             }
-            return await _itemRepository.UpdateAsync(existingItem, updateItemRequestDto);
+            var item = await _itemRepository.UpdateAsync(existingItem, updateItemRequestDto);
+
+            await _cache.ClearAsync("items_");
+
+            return item;
 
         }
 
@@ -76,7 +106,11 @@ namespace Back_End.Services.impl
                 throw new Exception("Item not found");
             }
 
-            return await _itemRepository.DeleteAsync(item);
+            var result = await _itemRepository.DeleteAsync(item);
+
+            await _cache.ClearAsync("items_");
+
+            return result;
         }
 
         public async Task<ItemModel> AddCategoryAsync(AddCategoryRequestDto addCategoryRequestDto)
@@ -93,6 +127,8 @@ namespace Back_End.Services.impl
                 throw new Exception("Category not found");
             }
             await _itemRepository.AddCategoryAsync(item, category);
+
+            await _cache.ClearAsync("items_");
 
             return item;
         }
