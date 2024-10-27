@@ -17,7 +17,7 @@ namespace Back_End.Controllers
     [ApiController]
     public class ItemController : ControllerBase
     {
-        private readonly IItemService _itemService;    
+        private readonly IItemService _itemService;
         public ItemController(IItemService itemService, ICacheService cacheService)
         {
             _itemService = itemService;
@@ -45,12 +45,12 @@ namespace Back_End.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create([FromBody]  CreateItemRequestDto createItemRequestDto)//itemdto item)
+        public async Task<IActionResult> Create([FromBody] CreateItemRequestDto createItemRequestDto)//itemdto item)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             ItemModel item = await _itemService.CreateAsync(createItemRequestDto);
-            
+
             return CreatedAtAction(nameof(GetById), new { id = item.Id }, item.ToItemResponseDto());
         }
 
@@ -82,6 +82,12 @@ namespace Back_End.Controllers
                 return BadRequest(ModelState);
             await _itemService.AddCategoryAsync(addCategoryRequestDto);
             return NoContent();
-        }   
+        }
+
+        [HttpGet("test-error")]
+        public IActionResult TestError()
+        {
+            throw new KeyNotFoundException("Item not found");
+        }
     }
 }

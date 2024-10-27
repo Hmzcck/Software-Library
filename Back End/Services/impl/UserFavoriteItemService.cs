@@ -40,14 +40,14 @@ namespace Back_End.Services.impl
 
             if (item == null)
             {
-                throw new Exception("Item not found");
+                throw new KeyNotFoundException("item was not found");
             }
 
             var existingUserFavoriteItem = await _userFavoriteItemRepository.GetUserFavoriteItem(user.Id, ItemId);
 
             if (existingUserFavoriteItem != null)
             {
-                throw new Exception("Item already in favorites");
+                throw new ArgumentException("items is already in favorites");
             }
 
             var userFavoriteItem = new UserFavoriteItem
@@ -69,7 +69,7 @@ namespace Back_End.Services.impl
 
             if (existingUserFavoriteItem == null)
             {
-                throw new Exception("Item not in favorites");
+                throw new KeyNotFoundException("items was not found in favorites");
             }
 
             return await _userFavoriteItemRepository.RemoveUserFavoriteItem(existingUserFavoriteItem);

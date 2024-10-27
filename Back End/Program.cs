@@ -10,6 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using StackExchange.Redis;
+using Back_End.ExceptionHandler;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -111,7 +113,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
-    
+
 });
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 {
@@ -123,6 +125,9 @@ builder.Services.AddSingleton<ICacheService, CacheService>();
 
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IItemService, ItemService>();
+
+
+
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IUserFavoriteItemRepository, UserFavoriteItemRepository>();
 
@@ -134,6 +139,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserFavoriteItemService, UserFavoriteItemService>();
 
+builder.Services.AddScoped<GlobalExceptionHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -142,6 +149,21 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStatusCodePages();
+app.UseExceptionHandler(appBuilder =>
+{
+    appBuilder.Run(async context =>
+    {
+        var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+        if (exceptionHandlerPathFeature != null)
+        {
+            var exception = exceptionHandlerPathFeature.Error;
+            var globalExceptionHandler = context.RequestServices.GetRequiredService<GlobalExceptionHandler>();
+            await globalExceptionHandler.TryHandleAsync(context, exception, CancellationToken.None);
+        }
+    });
+});
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAllOrigins");

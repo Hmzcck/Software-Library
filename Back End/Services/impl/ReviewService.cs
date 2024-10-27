@@ -39,7 +39,7 @@ namespace Back_End.Services.impl
             var review = await _reviewRepository.GetByIdAsync(id);
             if (review == null)
             {
-                throw new Exception("Review not found"); // Or handle this with custom exception handling
+                throw new KeyNotFoundException("review was not found"); // Or handle this with custom exception handling
             }
             return review;
         }
@@ -49,7 +49,7 @@ namespace Back_End.Services.impl
             var item = await _itemRepository.GetByIdAsync(itemId);
             if (item == null)
             {
-                throw new Exception("Item not found"); // Or handle this with custom exception handling
+                throw new KeyNotFoundException("item was not found"); // Or handle this with custom exception handling
             }
 
             var username = User.GetUsername();
@@ -68,7 +68,7 @@ namespace Back_End.Services.impl
 
             if (existingReview == null)
             {
-                throw new Exception("Review not found");
+                throw new KeyNotFoundException("review was not found");
             }
             return await _reviewRepository.UpdateAsync(existingReview, updateReviewRequestDto);
 
@@ -79,7 +79,7 @@ namespace Back_End.Services.impl
             var review = await _reviewRepository.GetByIdAsync(id);
             if (review == null)
             {
-                throw new Exception("Review not found");
+                throw new KeyNotFoundException("review was not found");
             }
 
             return await _reviewRepository.DeleteAsync(review);

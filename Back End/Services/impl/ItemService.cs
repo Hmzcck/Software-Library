@@ -52,7 +52,7 @@ namespace Back_End.Services.impl
             var item = await _itemRepository.GetByIdAsync(id);
             if (item == null)
             {
-                throw new Exception("Item not found"); // Or handle this with custom exception handling
+                throw new KeyNotFoundException("item was not found"); // Or handle this with custom exception handling
             }
             return ItemMapper.ToItemResponseDto(item);
         }
@@ -88,7 +88,7 @@ namespace Back_End.Services.impl
 
             if (existingItem == null)
             {
-                throw new Exception("Item not found");
+                throw new KeyNotFoundException("item was not found");
             }
             var item = await _itemRepository.UpdateAsync(existingItem, updateItemRequestDto);
 
@@ -103,7 +103,7 @@ namespace Back_End.Services.impl
             var item = await _itemRepository.GetByIdAsync(id);
             if (item == null)
             {
-                throw new Exception("Item not found");
+                throw new KeyNotFoundException("item was not found");
             }
 
             var result = await _itemRepository.DeleteAsync(item);
@@ -118,13 +118,13 @@ namespace Back_End.Services.impl
             var item = await _itemRepository.GetByIdAsync(addCategoryRequestDto.ItemId);
             if (item == null)
             {
-                throw new Exception("Item not found");
+                throw new KeyNotFoundException("item was not found");
             }
 
             var category = await _categoryRepository.GetByIdAsync(addCategoryRequestDto.CategoryId);
             if (category == null)
             {
-                throw new Exception("Category not found");
+                throw new KeyNotFoundException("category was not found");
             }
             await _itemRepository.AddCategoryAsync(item, category);
 

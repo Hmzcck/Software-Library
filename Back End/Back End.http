@@ -1,6 +1,17 @@
-@Back_End_HostAddress = http://localhost:5079
+@Back_End_HostAddress = http://localhost:5079/api
 
-GET {{Back_End_HostAddress}}/weatherforecast/
+GET {{Back_End_HostAddress}}/items/
 Accept: application/json
 
 ###
+GET {{Back_End_HostAddress}}/items/123
+Accept: application/json
+
+###
+GET {{Back_End_HostAddress}}/categories/123
+Accept: application/json
+
+###
+
+GET {{Back_End_HostAddress}}/items/test-error
+Accept: application/json

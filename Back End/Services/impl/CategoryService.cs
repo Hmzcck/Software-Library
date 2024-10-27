@@ -45,7 +45,7 @@ namespace Back_End.Services.impl
             var category = await _categoryRepository.GetByIdAsync(id);
             if (category == null)
             {
-                throw new Exception("Category not found"); // Or handle this with custom exception handling
+                throw new KeyNotFoundException("category was not found"); // Or handle this with custom exception handling
             }
             var categoryResponseDto = category.ToCategoryResponseDto();
             return categoryResponseDto;
@@ -67,7 +67,7 @@ namespace Back_End.Services.impl
             var existingCategory = await _categoryRepository.GetByIdAsync(id);
             if (existingCategory == null)
             {
-                throw new Exception("Category not found");
+                throw new KeyNotFoundException("category was not found");
             }
 
             var updatedCategory = await _categoryRepository.UpdateAsync(existingCategory, updateCategoryRequestDto);
@@ -84,7 +84,7 @@ namespace Back_End.Services.impl
             var category = await _categoryRepository.GetByIdAsync(id);
             if (category == null)
             {
-                throw new Exception("Category not found");
+                throw new KeyNotFoundException("category was not found");
             }
 
             var deletedCategory = await _categoryRepository.DeleteAsync(category);
