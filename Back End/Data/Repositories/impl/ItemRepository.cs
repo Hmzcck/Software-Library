@@ -26,8 +26,6 @@ namespace Back_End.Data.Repositories.impl
             .Include(item => item.Categories)
             .AsQueryable();
 
-            query = query.Skip((itemFilterDto.PageNumber - 1) * itemFilterDto.PageSize);
-
             if (!string.IsNullOrEmpty(itemFilterDto.Name))
             {
                 query = query.Where(item => item.Name.Contains(itemFilterDto.Name));
