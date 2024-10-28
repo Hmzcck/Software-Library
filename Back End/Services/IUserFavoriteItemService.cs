@@ -12,7 +12,7 @@ namespace Back_End.Services
 {
     public interface IUserFavoriteItemService
     {
-        public Task<List<ItemResponseDto>> GetUserFavoriteItems(ClaimsPrincipal User, ItemFilterDto itemFilterDto);
+        public Task<PaginatedResponse<ItemResponseDto>> GetUserFavoriteItems(ClaimsPrincipal User, ItemFilterDto itemFilterDto);
 
         public Task<UserFavoriteItem> AddUserFavoriteItem(ClaimsPrincipal User, int ItemId);
 

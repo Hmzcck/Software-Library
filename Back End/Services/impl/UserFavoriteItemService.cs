@@ -22,12 +22,14 @@ namespace Back_End.Services.impl
             _userFavoriteItemRepository = userFavoriteItemRepository;
         }
 
-        public async Task<List<ItemResponseDto>> GetUserFavoriteItems(ClaimsPrincipal User, ItemFilterDto itemFilterDto)
+        public async Task<PaginatedResponse<ItemResponseDto>> GetUserFavoriteItems(ClaimsPrincipal User, ItemFilterDto itemFilterDto)
         {
             var username = User.GetUsername();
             var user = await _userManager.FindByNameAsync(username);
-            var favoriteItems = await _userFavoriteItemRepository.GetUserFavoriteItems(user.Id, itemFilterDto);
-            return favoriteItems.Select(ItemMapper.ToItemResponseDto).ToList();
+
+
+            var paginatedResponse = await _userFavoriteItemRepository.GetUserFavoriteItems(user.Id, itemFilterDto);
+            return paginatedResponse;
         }
 
 

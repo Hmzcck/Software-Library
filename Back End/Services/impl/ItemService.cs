@@ -25,12 +25,12 @@ namespace Back_End.Services.impl
             _cache = cache;
         }
 
-        public async Task<List<ItemResponseDto>> GetAllAsync(ItemFilterDto itemFilterDto)
+        public async Task<PaginatedResponse<ItemResponseDto>> GetAllAsync(ItemFilterDto itemFilterDto)
         {
             // caching
             string cacheKey = $"items_{JsonConvert.SerializeObject(itemFilterDto)}";
 
-            var cachedItems = await _cache.GetAsync<List<ItemResponseDto>>(cacheKey);
+            var cachedItems = await _cache.GetAsync<PaginatedResponse<ItemResponseDto>>(cacheKey);
 
 
             if (cachedItems != null)
@@ -39,12 +39,11 @@ namespace Back_End.Services.impl
             }
 
 
-            var items = await _itemRepository.GetAllAsync(itemFilterDto);
-            var itemResponseDtos = items.Select(ItemMapper.ToItemResponseDto).ToList();
+            var paginatedResponse = await _itemRepository.GetAllAsync(itemFilterDto);
 
-            await _cache.SetAsync(cacheKey, itemResponseDtos, TimeSpan.FromMinutes(10));
+            await _cache.SetAsync(cacheKey, paginatedResponse, TimeSpan.FromMinutes(10));
 
-            return itemResponseDtos;
+            return paginatedResponse;
         }
 
         public async Task<ItemResponseDto?> GetByIdAsync(int id)

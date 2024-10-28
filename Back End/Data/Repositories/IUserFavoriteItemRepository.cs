@@ -11,7 +11,7 @@ namespace Back_End.Data.Repositories
 {
     public interface IUserFavoriteItemRepository
     {
-        Task<List<ItemModel>> GetUserFavoriteItems(string userId, ItemFilterDto itemFilterDto);
+        Task<PaginatedResponse<ItemResponseDto>> GetUserFavoriteItems(string userId, ItemFilterDto itemFilterDto);
         Task<UserFavoriteItem?> GetUserFavoriteItem(string userId, int itemId);
         Task<UserFavoriteItem> AddUserFavoriteItem(UserFavoriteItem userFavoriteItem);
         Task<UserFavoriteItem?> RemoveUserFavoriteItem(UserFavoriteItem userFavoriteItem);

@@ -13,6 +13,8 @@ export type ItemCardProps = {
 
 export type ItemCardContainerProps = {
   items: Array<ItemCardProps>;
+  paginationMetadata?: PaginationMetadata;
+  onPageChange?: (page: number) => void;
 };
 
 export type ItemDetail = {
@@ -34,4 +36,23 @@ export type ItemDetail = {
     createdAt: string;
     createdBy: string;
   }>;
+};
+
+export type PaginationMetadata = {
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+  totalCount: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+};
+
+export type PaginatedResponse<T> = {
+  items: T[];
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+  totalCount: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
 };

@@ -11,7 +11,7 @@ namespace Back_End.Services
     {
         //CRUD
 
-        public  Task<List<ItemResponseDto>> GetAllAsync(ItemFilterDto itemFilterDto);
+        public  Task<PaginatedResponse<ItemResponseDto>> GetAllAsync(ItemFilterDto itemFilterDto);
 
         public Task<ItemResponseDto?> GetByIdAsync(int id);
 

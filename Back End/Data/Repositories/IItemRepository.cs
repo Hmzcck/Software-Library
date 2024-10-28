@@ -9,7 +9,7 @@ namespace Back_End.Data.Repositories
 {
     public interface IItemRepository
     {
-        Task<List<ItemModel>> GetAllAsync(ItemFilterDto itemFilterDto);
+        Task<PaginatedResponse<ItemResponseDto>> GetAllAsync(ItemFilterDto itemFilterDto);
         Task<ItemModel?> GetByIdAsync(int id);
         Task<ItemModel> CreateAsync(ItemModel itemModel);
         Task<ItemModel?> UpdateAsync(ItemModel existingItem, UpdateItemRequestDto updateItemRequestDto);

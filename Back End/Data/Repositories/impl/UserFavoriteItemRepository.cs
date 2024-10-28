@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Back_End.DTOs.Item;
+using Back_End.Mappers;
 using Back_End.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,17 +19,17 @@ namespace Back_End.Data.Repositories.impl
             _context = context;
         }
 
-        public async Task<List<ItemModel>> GetUserFavoriteItems(string userId, ItemFilterDto itemFilterDto)
+        public async Task<PaginatedResponse<ItemResponseDto>> GetUserFavoriteItems(string userId, ItemFilterDto itemFilterDto)
         {
             var query = _context.UserFavoriteItems
-       .Where(x => x.UserId == userId)
-       .Include(x => x.Item)               // Include the item first
-           .ThenInclude(item => item.Reviews)
-               .ThenInclude(review => review.User) // Include the User for each review
-       .Include(x => x.Item)               // Include the item again
-           .ThenInclude(item => item.Categories)  // Include Categories
-       .Select(x => x.Item)                // Now you can project to select the Item
-       .AsQueryable();
+                .Where(x => x.UserId == userId)
+                .Include(x => x.Item)               // Include the item first
+                    .ThenInclude(item => item.Reviews)
+                        .ThenInclude(review => review.User) // Include the User for each review
+                .Include(x => x.Item)               // Include the item again
+                    .ThenInclude(item => item.Categories)  // Include Categories
+                .Select(x => x.Item)                // Now you can project to select the Item
+            .AsQueryable();
 
 
             if (!string.IsNullOrEmpty(itemFilterDto.Name))
@@ -51,8 +52,28 @@ namespace Back_End.Data.Repositories.impl
                 query = query.Where(item => item.Reviews.Average(r => r.Rating) >= itemFilterDto.MinRating.Value);
             }
 
-                      return await query.Skip((itemFilterDto.PageNumber - 1) * itemFilterDto.PageSize)
-    .Take(itemFilterDto.PageSize).ToListAsync();
+            var totalCount = await query.CountAsync();
+
+            // Calculate total pages
+            var totalPages = (int)Math.Ceiling(totalCount / (double)itemFilterDto.PageSize);
+
+            var items = await query
+                .Skip((itemFilterDto.PageNumber - 1) * itemFilterDto.PageSize)
+                .Take(itemFilterDto.PageSize)
+                .ToListAsync();
+
+            var itemResponseDtos = items.Select(ItemMapper.ToItemResponseDto).ToList();
+
+            return new PaginatedResponse<ItemResponseDto>
+            {
+                Items = itemResponseDtos,
+                PageNumber = itemFilterDto.PageNumber,
+                PageSize = itemFilterDto.PageSize,
+                TotalPages = totalPages,
+                TotalCount = totalCount,
+                HasNext = itemFilterDto.PageNumber < totalPages,
+                HasPrevious = itemFilterDto.PageNumber > 1
+            };
         }
 
         public async Task<UserFavoriteItem?> GetUserFavoriteItem(string userId, int itemId)

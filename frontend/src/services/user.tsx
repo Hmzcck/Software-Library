@@ -1,16 +1,14 @@
-// services/favoriteItemsService.js
-
 const API_URL = 'http://localhost:5079/api';
 
 
-export const fetchFavoriteItems = async () => {
+export const fetchFavoriteItems = async (page: number = 1) => {
   try {
     const token = localStorage.getItem('authToken');
     if (!token) {
       throw new Error('No auth token found');
     }
 
-    const response = await fetch(`${API_URL}/userfavoriteitem`, {
+    const response = await fetch(`${API_URL}/userfavoriteitem?page=${page}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -19,12 +17,12 @@ export const fetchFavoriteItems = async () => {
       cache: 'no-cache',
     });
 
-
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
-    const data = await response.json(); 
+    
+    const data = await response.json();
+    console.log("Fetched favorite items data:", data);
     return data;
   } catch (error) {
     console.error('Error fetching favorite items:', error);

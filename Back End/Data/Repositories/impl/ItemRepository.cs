@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Back_End.DTOs.Item;
+using Back_End.Mappers;
 using Back_End.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace Back_End.Data.Repositories.impl
             _context = context;
         }
 
-        public async Task<List<ItemModel>> GetAllAsync(ItemFilterDto itemFilterDto)
+        public async Task<PaginatedResponse<ItemResponseDto>> GetAllAsync(ItemFilterDto itemFilterDto)
         {
             var query = _context.Items
             .Include(item => item.Reviews)
@@ -61,8 +62,28 @@ namespace Back_End.Data.Repositories.impl
                 query = query.OrderByDescending(item => item.CreationDate);
             }
 
-            return await query.Skip((itemFilterDto.PageNumber - 1) * itemFilterDto.PageSize)
-    .Take(itemFilterDto.PageSize).ToListAsync();
+            var totalCount = await query.CountAsync();
+
+            // Calculate total pages
+            var totalPages = (int)Math.Ceiling(totalCount / (double)itemFilterDto.PageSize);
+
+            var items = await query
+                .Skip((itemFilterDto.PageNumber - 1) * itemFilterDto.PageSize)
+                .Take(itemFilterDto.PageSize)
+                .ToListAsync();
+
+            var itemResponseDtos = items.Select(ItemMapper.ToItemResponseDto).ToList();
+
+            return new PaginatedResponse<ItemResponseDto>
+            {
+                Items = itemResponseDtos,
+                PageNumber = itemFilterDto.PageNumber,
+                PageSize = itemFilterDto.PageSize,
+                TotalPages = totalPages,
+                TotalCount = totalCount,
+                HasNext = itemFilterDto.PageNumber < totalPages,
+                HasPrevious = itemFilterDto.PageNumber > 1
+            };
 
         }
 

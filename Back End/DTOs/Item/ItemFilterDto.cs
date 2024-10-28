@@ -28,7 +28,7 @@ namespace Back_End.DTOs.Item
         public int PageNumber { get; set; } = 1;
         [Range(1, int.MaxValue, ErrorMessage = "Page number must be greater than 0.")]
 
-        public int PageSize { get; set; } = 15;
+        public int PageSize { get; set; } = 3;
     }
 
 }
