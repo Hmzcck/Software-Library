@@ -17,6 +17,7 @@ export default function FavoriteItems() {
     const getFavoriteItems = async () => {
       try {
         const page = parseInt(searchParams.get("page") || "1", 10);
+        console.log("Fetching favorite items for page:", page);
         const paginatedResponse = await fetchFavoriteItems(page);
         setFavoriteItems(paginatedResponse.items);
         setPaginationMetadata({
@@ -40,7 +41,7 @@ export default function FavoriteItems() {
   const handlePageChange = (page) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", page.toString());
-    router.push(`/favorite-items?${params.toString()}`);
+    router.push(`/user/favoriteItems?${params.toString()}`);
   };
 
   if (loading) {
@@ -54,10 +55,11 @@ export default function FavoriteItems() {
   return (
     <div>
       <h1>Favorite Items</h1>
-      <ItemCardContainer 
-        items={favoriteItems} 
+      <ItemCardContainer
+        items={favoriteItems}
         paginationMetadata={paginationMetadata}
         onPageChange={handlePageChange}
+        currentPage={paginationMetadata?.pageNumber || 1}
       />
     </div>
   );

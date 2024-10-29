@@ -13,8 +13,9 @@ export type ItemCardProps = {
 
 export type ItemCardContainerProps = {
   items: Array<ItemCardProps>;
-  paginationMetadata?: PaginationMetadata;
-  onPageChange?: (page: number) => void;
+  paginationMetadata: PaginationMetadata | null;
+  onPageChange: (page: number) => void;
+  currentPage: number;
 };
 
 export type ItemDetail = {

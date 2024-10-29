@@ -68,6 +68,7 @@ export default function Items() {
         items={items}
         paginationMetadata={paginationMetadata}
         onPageChange={handlePageChange}
+        currentPage={paginationMetadata?.pageNumber || 1}
       />
     </div>
   );

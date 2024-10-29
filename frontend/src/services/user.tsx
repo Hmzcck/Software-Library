@@ -1,14 +1,21 @@
+import { log } from "console";
+
 const API_URL = 'http://localhost:5079/api';
 
 
-export const fetchFavoriteItems = async (page: number = 1) => {
+export const fetchFavoriteItems = async (page: number = 2, fetchAll: boolean = false) => {
   try {
     const token = localStorage.getItem('authToken');
     if (!token) {
       throw new Error('No auth token found');
     }
 
-    const response = await fetch(`${API_URL}/userfavoriteitem?page=${page}`, {
+    let url = `${API_URL}/userfavoriteitem`;
+    if (!fetchAll) {
+      url += `?PageNumber=${page}`;
+    }
+    console.log("URL: ", url);
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,

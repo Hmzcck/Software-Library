@@ -52,7 +52,7 @@ export default function ItemCard({
       <div className="relative overflow-hidden rounded-t-xl">
         <img className="item-card-image" src={image} alt={name} />
         <button
-          onClick={onFavoriteToggle}
+          onClick={handleFavoriteClick}
           className="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:bg-white transition-colors duration-200"
         >
           <Star

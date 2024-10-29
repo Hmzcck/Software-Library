@@ -15,20 +15,27 @@ export default function ItemCardContainer({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    console.log("Loading favorite items...");
     const loadFavorites = async () => {
       try {
         if (!localStorage.getItem("authToken")) {
           setIsLoading(false);
           return;
         }
-        const favoriteItemsResponse = await fetchFavoriteItems();
+        const favoriteItemsResponse = await fetchFavoriteItems(paginationMetadata?.pageNumber, false); // Fetch all favorite items
         console.log("Fetched favorite items response:", favoriteItemsResponse);
-        if (favoriteItemsResponse && Array.isArray(favoriteItemsResponse.items)) {
+        if (
+          favoriteItemsResponse &&
+          Array.isArray(favoriteItemsResponse.items)
+        ) {
           const ids = favoriteItemsResponse.items.map((item) => item.id);
           console.log("Extracted favorite item IDs:", ids);
           setFavoriteItemIds(ids);
         } else {
-          console.error("Unexpected response structure:", favoriteItemsResponse);
+          console.error(
+            "Unexpected response structure:",
+            favoriteItemsResponse
+          );
         }
       } catch (error) {
         console.error("Error fetching favorite items:", error);
@@ -38,8 +45,9 @@ export default function ItemCardContainer({
     };
 
     loadFavorites();
-  }, []);
+  }, [paginationMetadata?.pageNumber]);
 
+  
   useEffect(() => {
     console.log("Current favoriteItemIds:", favoriteItemIds);
   }, [favoriteItemIds]);
