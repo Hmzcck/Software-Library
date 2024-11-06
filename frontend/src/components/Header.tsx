@@ -10,6 +10,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -22,6 +23,13 @@ export default function Header() {
     router.push("/");
   };
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/items?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   return (
     <header className="header">
       <div className="header-content">
@@ -30,15 +38,19 @@ export default function Header() {
         </div>
 
         <div className="header-search">
-          <input
-            type="text"
-            className="header-search-input"
-            id="Search"
-            placeholder="Search for a software..."
-          />
-          <label htmlFor="Search" className="header-search-label">
-            Search for a software...
-          </label>
+          <form onSubmit={handleSearch}>
+            <input
+              type="text"
+              className="header-search-input"
+              id="Search"
+              placeholder="Search for a software..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <label htmlFor="Search" className="header-search-label">
+              Search for a software...
+            </label>
+          </form>
         </div>
 
         <div className="header-buttons">

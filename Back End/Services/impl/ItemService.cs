@@ -25,21 +25,21 @@ namespace Back_End.Services.impl
             _cache = cache;
         }
 
-        public async Task<PaginatedResponse<ItemResponseDto>> GetAllAsync(ItemFilterDto itemFilterDto)
+        // ItemService.cs
+        public async Task<PaginatedResponse<ItemResponseDto>> GetAllAsync(ItemFilterDto itemFilterDto, string search)
         {
-            // caching
-            string cacheKey = $"items_{JsonConvert.SerializeObject(itemFilterDto)}";
+            // Include 'search' in the cache key
+            string cacheKey = $"items_{JsonConvert.SerializeObject(itemFilterDto)}_search_{search}";
 
             var cachedItems = await _cache.GetAsync<PaginatedResponse<ItemResponseDto>>(cacheKey);
-
 
             if (cachedItems != null)
             {
                 return cachedItems;
             }
 
-
-            var paginatedResponse = await _itemRepository.GetAllAsync(itemFilterDto);
+            // Pass 'search' to the repository
+            var paginatedResponse = await _itemRepository.GetAllAsync(itemFilterDto, search);
 
             await _cache.SetAsync(cacheKey, paginatedResponse, TimeSpan.FromMinutes(10));
 

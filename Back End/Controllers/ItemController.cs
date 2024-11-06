@@ -24,13 +24,14 @@ namespace Back_End.Controllers
         }
 
 
+        // ITEMCONTROLLER.CS
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] ItemFilterDto itemFilterDto)
+        public async Task<IActionResult> GetAll([FromQuery] ItemFilterDto itemFilterDto, [FromQuery] string? search)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var items = await _itemService.GetAllAsync(itemFilterDto);
+            var items = await _itemService.GetAllAsync(itemFilterDto, search);
             return Ok(items);
         }
 
@@ -89,5 +90,7 @@ namespace Back_End.Controllers
         {
             throw new KeyNotFoundException("Item not found");
         }
+
+
     }
 }

@@ -1,3 +1,4 @@
+// PAGE.TSX-1 (Items Component)
 "use client";
 
 import { useState, useEffect } from "react";
@@ -23,6 +24,7 @@ export default function Items() {
       const MostForks = searchParams.get("sort") === "forks";
       const MostRecent = searchParams.get("sort") === "new";
       const PageNumber = parseInt(searchParams.get("page") || "1", 10);
+      const search = searchParams.get("search") || "";
 
       try {
         const paginatedResponse = await fetchItems({
@@ -31,6 +33,7 @@ export default function Items() {
           MostForks,
           MostRecent,
           PageNumber,
+          search,
         });
         console.log("Fetched paginatedResponse:", paginatedResponse);
         setItems(paginatedResponse.items);

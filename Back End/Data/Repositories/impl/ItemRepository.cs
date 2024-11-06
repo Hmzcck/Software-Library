@@ -19,7 +19,7 @@ namespace Back_End.Data.Repositories.impl
             _context = context;
         }
 
-        public async Task<PaginatedResponse<ItemResponseDto>> GetAllAsync(ItemFilterDto itemFilterDto)
+        public async Task<PaginatedResponse<ItemResponseDto>> GetAllAsync(ItemFilterDto itemFilterDto, string search)
         {
             var query = _context.Items
             .Include(item => item.Reviews)
@@ -46,7 +46,10 @@ namespace Back_End.Data.Repositories.impl
             {
                 query = query.Where(item => item.Reviews.Average(r => r.Rating) >= itemFilterDto.MinRating.Value);
             }
-
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(item => item.Name.Contains(search) || item.Description.Contains(search));
+            }
             if (itemFilterDto.MostStars)
             {
                 query = query.OrderByDescending(item => item.Stars);

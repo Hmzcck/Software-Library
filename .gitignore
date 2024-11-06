@@ -1,0 +1,26 @@
+# Ignore files and directories for the backend
+Back End/bin/
+Back End/obj/
+Back End/*.user
+Back End/*.rsuser
+Back End/*.suo
+Back End/*.userosscache
+Back End/*.sln.docstates
+Back End/*.nupkg
+Back End/project.lock.json
+Back End/project.fragment.lock.json
+Back End/.vscode/
+Back End/.vs/
+Back End/_ReSharper.Caches/
+
+# Ignore files and directories for the frontend
+frontend/.next/
+frontend/node_modules/
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
