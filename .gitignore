@@ -12,6 +12,7 @@ Back End/project.fragment.lock.json
 Back End/.vscode/
 Back End/.vs/
 Back End/_ReSharper.Caches/
+Back End/appsettings.Development.json
 
 # Ignore files and directories for the frontend
 frontend/.next/
