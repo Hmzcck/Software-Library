@@ -46,15 +46,10 @@ namespace Back_End.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            try
-            {
-                var userFavoriteItem = await _userFavoriteItemService.AddUserFavoriteItem(User, itemId);
-                return Ok(userFavoriteItem);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+
+            var userFavoriteItem = await _userFavoriteItemService.AddUserFavoriteItem(User, itemId);
+            return CreatedAtAction(nameof(AddUserFavoriteItem), userFavoriteItem);
+
         }
 
         [HttpDelete]
@@ -65,15 +60,10 @@ namespace Back_End.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            try
-            {
-                var userFavoriteItem = await _userFavoriteItemService.RemoveUserFavoriteItem(User, itemId);
-                return Ok(userFavoriteItem);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+
+            await _userFavoriteItemService.RemoveUserFavoriteItem(User, itemId);
+            return NoContent();
+
         }
     }
 }
