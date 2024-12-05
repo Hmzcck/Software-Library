@@ -35,7 +35,7 @@ namespace Back_End.Data.Repositories.impl
         public async Task<ReviewModel> CreateAsync(ReviewModel reviewModel)
         {
             // Add the Review to the context
-            _context.Reviews.Add(reviewModel);
+            await _context.Reviews.AddAsync(reviewModel);
 
             // Save changes to the database
             await _context.SaveChangesAsync();
