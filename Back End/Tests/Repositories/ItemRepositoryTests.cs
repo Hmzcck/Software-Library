@@ -136,7 +136,7 @@ namespace Back_End.Tests.Repositories
             result.Image.Should().Be(updateDto.Image);
             result.CreationDate.Should().Be(updateDto.CreationDate);
 
-        // Verify persistence
+            // Verify persistence
             var updatedItemFromDb = await _context.Items.FindAsync(existingItem.Id);
             updatedItemFromDb.Should().NotBeNull();
             updatedItemFromDb.Should().BeEquivalentTo(result);
